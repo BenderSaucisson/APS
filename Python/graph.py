@@ -24,8 +24,20 @@ def graphe(chemin):
     grapheFixations()
   elif 'gaze_positions_on_surface_' in chemin :
     grapheSurface(chemin)
+  elif chemin=='ACC':
+    grapheACC()
+  elif chemin=='BVP':
+    grapheBVP()
+  elif chemin=='EDA':
+    grapheEDA()
+  elif chemin=='HR':
+    grapheHR()
+  elif chemin=='IBI':
+    grapheIBI()
+  elif chemin=='TEMP':
+    grapheTEMP()
   else :
-    print('csv non reconnu')
+    print('csv non reconnu'+ chemin)
 
 #fonction de représenter plusieurs graphe
 #i étant le nombre de graphe à plot, liste étant la liste des graph à plot
@@ -152,3 +164,79 @@ def grapheSurface(surface):
   plt.xlabel('x_scaled')
   plt.ylabel('y_scaled')
 
+def grapheACC():
+  df = pd.read_csv('../Data_E4/CSV_standard/ACC_standard_t0.csv')
+  plt.subplot(3,1,1)
+  plt.plot(df['Time_stamp'],df['X'],'--')
+  plt.xlabel('Time')
+  plt.ylabel('Acc_X')
+  plt.subplot(3,1,2)
+  plt.plot(df['Time_stamp'],df['Y'],'--')
+  plt.xlabel('Time')
+  plt.ylabel('Acc_Y')
+  plt.subplot(3,1,3)
+  print(df)
+  plt.plot(df['Time_stamp'],df['Z'],'--')
+  plt.xlabel('Time')
+  plt.ylabel('Acc_Z')
+
+def grapheBVP():
+  df = pd.read_csv('../Data_E4/CSV_standard/BVP_standard_t0.csv')
+  plt.plot(df['Time_stamp'],df['Value'],'.')
+  plt.xlabel('Time (s)')
+  plt.ylabel('Value')
+
+def grapheEDA():
+  df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard_filtre_t0.csv')
+  n=df['Electrodermal_activity'].size +1
+  freq=np.fft.fftfreq(n,d=0.1)
+  A=np.fft.fft(df['Electrodermal_activity'])
+  B = np.append(A,A[0])
+  '''
+  plt.subplot(311)
+  plt.plot(df['Time_stamp'],df['Electrodermal_activity'],'.')
+  plt.xlabel('Time (s)')
+  plt.ylabel('Cond (microsiemens)')
+  
+  plt.plot( np.append(df['Electrodermal_activity'], df['Electrodermal_activity'][0]) )
+  '''
+  plt.plot(freq, B.real/40, label="real")
+  plt.plot(freq, B.imag, label="imag")
+  plt.legend()
+
+def grapheHR():
+  df = pd.read_csv('../Data_E4/CSV_standard/HR_standard_t0.csv')
+  plt.plot(df['Time_stamp'],df['Av_heart_rate'],'.')
+  plt.xlabel('Time (s)')
+  plt.ylabel('Heart_rate (bpm)')
+  
+def grapheIBI():
+  df = pd.read_csv('../Data_E4/CSV_standard/IBI_standard_t0.csv')
+  '''g=[0]
+  time_g=[0]
+  eps=0.00000000001
+  qrsTime=0.080
+  for line in range(len(df['Time_stamp'])):
+    time_s=df['Time_stamp'][line]
+    duration=df['IBI'][line]
+    g.append(0)
+    time_g.append(time_s-qrsTime-eps)
+    g.append(1)
+    time_g.append(time_s-qrsTime)
+    g.append(1)
+    time_g.append(time_s-eps)
+    g.append(0)
+    time_g.append(time_s)
+    g.append(0)
+    time_g.append(time_s+duration)
+  plt.plot(time_g,g)'''
+  plt.plot(df['Time_stamp'],df['IBI'],drawstyle='steps')
+  # (drawstyle='steps')?
+  plt.xlabel('Time (s)')
+  plt.ylabel('IBI interval (ms)')
+
+def grapheTEMP():
+  df = pd.read_csv('../Data_E4/CSV_standard/TEMP_standard_t0.csv')
+  plt.plot(df['Time_stamp'],df['temperature'],'.')
+  plt.xlabel('Time (s)')
+  plt.ylabel('Temp (C)')
