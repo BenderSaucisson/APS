@@ -2,6 +2,7 @@
 
 #importation du module visant à rendre utilisable la variable temps (en UNIX)
 import arrangeTime
+import arrangeTime_e4
 #importation du module pour filtrer les variables non désirés présentes dans les csv
 import filtre
 #importation du module de filtrage par rapport à la confidence, si confidence trop basse alors la ligne est effacée
@@ -20,7 +21,7 @@ nombreIntervalles, debutIntervalle, finIntervalle = entree.variableNombreInterva
 #Opérations sur les csv du pupil eye
 for i in surfaces :
   #fonction principale des module arrangeTime
-  arrangeTime_eye_tracker.arrangeTime(i,nomExport)
+  arrangeTime.arrangeTime(i,nomExport)
   filtre.filtreIntervalle(nombreIntervalles, debutIntervalle, finIntervalle, i)
   #fonction principale du module filtre
   filtre.filtre(i)
