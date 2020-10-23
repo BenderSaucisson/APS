@@ -13,6 +13,8 @@ def aberrance(chemin):
   #  aberrancePupilPosition()
   elif chemin == 'blinks':
     aberranceBlinks()
+  elif chemin == 'EDA':
+    aberranceEDA()
   elif 'gaze_positions_on_surface_' in chemin:
     aberranceSurface(chemin)
   else :
@@ -89,3 +91,13 @@ def aberranceBlinks():
   filtre.to_csv('../SortiePython/pupil_positions_filtred_t_c_a.csv',index=False)
   #supprime le fichier csv antérieur
   os.remove('../SortiePython/pupil_positions_filtred_t_c.csv')'''
+
+#fonction permettant de trier les valeurs dans le csv de EDA, notamment celles du début
+def aberranceEDA():
+  filtre= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  q1=filtre['Electrodermal_activity'].quantile(.25)
+  q3=filtre['Electrodermal_activity'].quantile(.75)
+  median=filtre['Electrodermal_activity'].median()
+  filtre1=filtre[(filtre['Electrodermal_activity']>=(median-1.5*(q3-q1))) & (filtre['Electrodermal_activity']<=(median+1.5*(q3-q1)))]
+  filtre1.to_csv('../SortiePython/EDA_intervalle_filtred_t_a.csv',index=False)
+  os.remove('../SortiePython/EDA_intervalle_filtred_t.csv')
