@@ -17,6 +17,13 @@ def statistique(nombre, listeDebut, listeFin):
   listeMaxDiametrePupille = []
   listeMinDiametrePupille = []
   listeMouvementFixation = []
+  listeMoyenneRythmeCardiaque= []
+  listeMaxRythmeCardiaque= []
+  listeMinRythmeCardiaque= []
+  listeVariationRythmeCardiaque= []
+  listeMoyenneConductivitePeau= []
+  listeMaxConductivitePeau= []
+  listeMinConductivitePeau= []
   #création de la ligne des noms de colonnes
   stat = pd.DataFrame(columns=['Debut/Fin','FrequenceClignement','MoyenneDispersion','MoyenneDiametrePupille','MaxDiametrePupille','MinDiametrePupille','InterQuantileMouvementFixation'])
   #boucle jusqua ce que le compteur atteigne la valeur du nombre d'intervalle que l'utilisateur veut analyser
@@ -28,6 +35,14 @@ def statistique(nombre, listeDebut, listeFin):
     listeMaxDiametrePupille.append(DiametrePupille(listeDebut[i],listeFin[i]-listeDebut[i])[1])
     listeMinDiametrePupille.append(DiametrePupille(listeDebut[i],listeFin[i]-listeDebut[i])[2])
     listeMouvementFixation.append(mouvementFixation(listeDebut[i],listeFin[i]-listeDebut[i]))
+    
+    listeMoyenneRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[0])
+    listeMaxRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[1])
+    listeMinRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[2])
+    listeVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i]))
+    listeMoyenneConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[0])
+    listeMaxConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[1])
+    listeMinConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[2])
     #Quelque chose de plus jolie pour mieux représenter l'intervalle
     txt = str(listeDebut[i])+'/'+str(listeFin[i])
     #Création de la ligne à partir des autres listes
@@ -147,3 +162,62 @@ def mouvementFixation(debut, duration):
   iq_range = q3 - q1
   iq_range = np.around(iq_range, decimals=3)
   return(iq_range)
+
+
+
+
+def RythmeCardiaque(debut, duration):
+  #lecture csv
+  df = pd.read_csv('../Data_E4/CSV_standard/HR_standard.csv')
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  startTimeUnix = getTime.get_start_time_simulateur_s()
+  #On ne prend que les valeurs situées dans l'intervalle
+  df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
+  #calcul des valeurs intéressantes
+  moyenneRythmeCardiaque = df['Av_heart_rate'].mean()
+  maxRythmeCardiaque = df['Av_heart_rate'].max()
+  minRythmeCardiaque = df['Av_heart_rate'].min()
+  #On arrondis les valeurs pour rendre ça plus beau
+  '''moyenneDiametrePupille = np.around(moyenneDiametrePupille, decimals=1)
+  maxDiametrePupille = np.around(maxDiametrePupille, decimals=1)
+  minDiametrePupille = np.around(minDiametrePupille, decimals=1)'''
+  #création de la liste regroupant les valeurs intéressantes
+  rythmeCardiaque = [moyenneRythmeCardiaque, maxRythmeCardiaque, minRythmeCardiaque]
+  return(rythmeCardiaque)
+
+def VariationRythmeCardiaque(debut, duration):
+  #lecture csv
+  df = pd.read_csv('../Data_E4/CSV_standard/IBI_standard.csv')
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  startTimeUnix = getTime.get_start_time_simulateur_s()
+  #On ne prends que les valeurs situées dans l'intervalle
+  df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
+  #calcul des valeurs intéressantes
+  moyenneVariationRythmeCardiaque = df['IBI'].mean()
+  moyenneVariationRythmeCardiaque= np.around(moyenneVariationRythmeCardiaque, decimals= 3)
+  #On arrondis les valeurs pour rendre ça plus beau
+  '''moyenneDiametrePupille = np.around(moyenneDiametrePupille, decimals=1)
+  maxDiametrePupille = np.around(maxDiametrePupille, decimals=1)
+  minDiametrePupille = np.around(minDiametrePupille, decimals=1)'''
+  #création de la liste regroupant les valeurs intéressantes
+  print('La moyenne de durée entre les battements de coeur est de' , moyenneVariationRythmeCardiaque, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
+  return(moyenneVariationRythmeCardiaque)
+
+def ConductivitePeau(debut, duration):
+  #lecture csv
+  df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  startTimeUnix = getTime.get_start_time_simulateur_s()
+  #On ne prends que les valeurs situées dans l'intervalle
+  df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
+  #calcul des valeurs intéressantes
+  moyenneConductivitePeau = df['Electrodermal_activity'].mean()
+  maxConductivitePeau = df['Electrodermal_activity'].max()
+  minConductivitePeau = df['Electrodermal_activity'].min()
+  #On arrondis les valeurs pour rendre ça plus beau
+  moyenneConductivitePeau = np.around(moyenneConductivitePeau, decimals=3)
+  maxConductivitePeau = np.around(maxConductivitePeau, decimals=3)
+  minConductivitePeau = np.around(minConductivitePeau, decimals=3)
+  #création de la liste regroupant les valeurs intéressantes
+  conductivitePeau = [moyenneConductivitePeau, maxConductivitePeau, minConductivitePeau]
+  return(conductivitePeau)
