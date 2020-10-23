@@ -2,6 +2,7 @@
 
 #importation du module visant à rendre utilisable la variable temps (en UNIX)
 import arrangeTime
+import arrangeTime_e4
 #importation du module pour filtrer les variables non désirés présentes dans les csv
 import filtre
 #importation du module de filtrage par rapport à la confidence, si confidence trop basse alors la ligne est effacée
@@ -13,22 +14,17 @@ import statistique
 import getTime
 import pytz
 
-oui = getTime.get_start_time_simulateur_s()
-print(oui)
-
-nomExport, surfaces = entree.variableCmd()
-
-#création d'une liste avec les noms des différents csv à utiliser, les csv sont présent dans le dossier 'exports'
-
+nomExport, surfaces, e4 = entree.variableCmd()
 nombreIntervalles, debutIntervalle, finIntervalle = entree.variableNombreIntervales()
 
-
+#Opérations sur les csv du pupil eye
 for i in surfaces :
-  filtre.filtreIntervalle(nombreIntervalles, debutIntervalle, finIntervalle, i, nomExport)
+  #fonction principale des module arrangeTime
+  arrangeTime.arrangeTime(i,nomExport)
+  filtre.filtreIntervalle(nombreIntervalles, debutIntervalle, finIntervalle, i)
   #fonction principale du module filtre
   filtre.filtre(i)
-  #fonction principale du module arrangeTime
-  arrangeTime.arrangeTime(i)
+  
   #Cela ne sert à rien d'utiliser le module confidence sur le blink car cela à été préalablement fait par l'application
   if i != 'blinks':
     #fonction principale du module confidence
@@ -38,7 +34,17 @@ for i in surfaces :
     #fonction principale du module d'aberrance
     aberrance.aberrance(i)
 
-statistique.statistique(nombreIntervalles, debutIntervalle, finIntervalle)
+#Opérations sur les csv de la montre Empatica_4
+for f in e4 :
+  arrangeTime_e4.arrangeTime(f)
+  arrangeTime_e4.arrangeTime_t0(f)
+  filtre.filtreIntervalle(nombreIntervalles, debutIntervalle, finIntervalle, f)
+  filtre.filtre(f)
+  if (f== 'EDA'):
+    aberrance.aberrance(f)
 
+
+statistique.statistique(nombreIntervalles, debutIntervalle, finIntervalle)
 entree.plotCmd()
 graph.show()
+
