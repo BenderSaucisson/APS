@@ -1,0 +1,45 @@
+Dans ce fichier je vais vous détailler comment utiliser le programme et comment il marche pour pourquoi pas le modifier à votre guise.
+Tout d'abords si vous voulez vous plongez dans le code tout est détaillé par des commentaires !
+
+Explication des différents modules :
+
+L'ordre dans lequel je vais présenter les modules seront en fonction de leurs moment d'apparition dans le code. Logiquement le 'Main.py' sera le premier.
+
+- Main.py :
+Module principale par où se lance le programme, il réunit toutes les fonctions principales des autres modules et les mets dans le bon ordre pour que l'execution se passe bien. On importe tout les autres modules dans celui ci pour utiliser leurs fonctions. Dans ce module l'ordre des fonctions est important en effet après le passage d'un csv dans un filtre il ne porte plus le même nom donc si les étapes sont faites dans le désordre plus possible de se repérer. Il est aussi important de faire certains filtres avant d'autres pour des questions de cohérence.
+
+- entree.py :
+Ce module gère tout ce que l'utilisateur devra rentrer dans la console comme (dans l'ordre :) la localisation du fichier d'exportation des données, le nombre de surface enregistrées dans pupil player, leurs noms, le nombre d'intervalle à examiner, leurs débuts et commencements, ainsi que le nombre et contenu de graph à afficher.
+Il va aussi gérer si l'utilisateur écris des valeurs qui n'ont aucun sens comme un entier au lieu d'un texte, en renvoyant une erreur précisant pourquoi il n'a pas le droit de faire ça.
+
+- filtre.py :
+Ce module comme beaucoup d'autres va filtrer un csv pour en creer un autre. La difference avec les autres modules de filtrage c'est que celui ci va filtrer de façon plus large le csv. Il ne va garder seulement les colonnes qui on un intérêt pour nous, tout ça en fonction du nom du csv. Si le csv s'appelle 'blink' alors il sera filtré d'une certaine façon, ce qui sera complètement différent du csv 'gaze_position'. Il va aussi supprimer certaines lignes qui ne nous intéressent pas en fonction de ce qu'on a rentrée comme intervalle en entrée dans la console. Dans le filtre de pupil_position on rajoute le fait qu'on doit moyenner la valeur des deux yeux pour avoir un diamètre pupillaire correcte.
+
+- arrangeTime.py :
+Un problème dans l'utilisation du matériel tel que l'EyeTracker est que le temps est relative au système, elle n'a donc aucun sens si nous la prenons tel quel. Il est donc nécessaire de la réajuster à l'aide d'un autre module, 'getTime' (que l'on expliquera plus tard). Pour cela il faut prendre la valeur du csv et lui faire subi des opérations pour arriver au temps UNIX. Ce qui est beaucoup plus simple pour travailler avec plusieurs appareil/système en simultané dans un programme.
+
+- getTime.py :
+On récupère la valeur de temps relative et absolu de commencement de l'enregistrement des données. On les récupère dans le fichier 'info.player.json'.
+
+- confidence.py :
+Ce module va filtrer toutes les lignes qui n'ont pas une confidence supérieur à 0.6. La confidence est la valeur de confiance envers la donnée que nous donne le logiciel. 0 = Médiocre, 1 = Très bonne. Nous avons choisis 0.6 car le site le conseillait. Bien entendu il ne faut pas appliquer ce filtre sur 'blink.csv' car le principe du clignement est qui'il y a une chute brute dans la confidence pour qu'il soit considéré comme tel.
+
+- aberrance.py :
+La encore un module de filtrage, il permet d'effacer les lignes qui sont des valeurs aberrantes. Une valeur aberrante est considérée comme tel quand elle est inférieur a : quantile(25%)-(ecartInterquantile*1.5) ou quand elle est supérieur a : quantile(75%)-(ecartInterquantile*1.5) ces valeurs ne sont pas du tout arbitraire c'est un référentile en terme de statistique.
+
+- statistique.py :
+Gros module regroupant toutes les stats à faire. Contrairement au module de grah, toutes les statistique possible nous les faisons et les stockons dans un fichier csv. Chaque statistique sera associé à un intervalle. Nous urons donc chaque statistique pour chaque intervalles different. Il sera ensuite lié au module de graph pour que l'on graph ces données.
+
+Marche à suivre pour bien utiliser le programme :
+
+- Avant toute chose il faudra bien placer ses fichiers, Dans le dossier programme, il y a la aussi plusieurs dossier. Le dossier "EyeTracker" contiendra toute vos données exporter depuis l'application Pupil Record. Dans ce dossier "EyeTracker" il vous faudra donc déposer tout les fichiers présent dans le dossier de "record" (celui obtenu juste après la fin d'un record dans pupil record) vers ce dossier "EyeTracker"
+- Une fois vos fichiers bien placés il vous faudra savoir quoi écrire dans la console, pour éviter que cela vous prenne trop de temps voici les éléments que vous devez savoir : Le nom du fichier d'export (présent dans EyeTracker/exports/NomDuFichier), le nombre de surface que vous avez différenciées sur Pupil Player et le nom de ses surfaces.
+- Après ces deux étapes il ne vous reste plus qu'à lancer le programme tapper dans la console :
+  - 'python Main.py'
+  - 'NomDuFichierExport'
+  - 'NombreDeSurfaces'
+  - 'NomDesSurfaces'
+  - 'CombienIntervallesVousVoulez'
+  - 'QuoiCommeIntervalles'
+  - 'CombienDeGraphVousVoulez'
+  - 'QuoiGrapher'
