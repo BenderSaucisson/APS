@@ -76,12 +76,13 @@ def variableCmd() :
     print(surfaces)
     i = i+1
   #création d'une liste avec les noms des différents csv à utiliser, les csv sont présent dans le dossier 'exports'
-  sortie = ['gaze_positions','blinks','pupil_positions','fixations']
+  sortie_e_t = ['gaze_positions','blinks','pupil_positions','fixations']
+  sortie_e4 = ['ACC','BVP','EDA','HR','IBI','TEMP']
   i = 0
   while i < nombreSurfaces :
-    sortie.append('gaze_positions_on_surface_'+ surfaces[i])
+    sortie_e_t.append('gaze_positions_on_surface_'+ surfaces[i])
     i += 1
-  return(nomExport, sortie)
+  return(nomExport, sortie_e_t,sortie_e4)
 
 def variableNombreIntervales():
   print("Combien d'intervalles voulez vous examiner : ")

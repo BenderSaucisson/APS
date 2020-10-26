@@ -5,6 +5,10 @@ import pandas as pd
 import csv
 #importation du module d'animation pour gaze_position.csv
 import animationM
+#Importation modules EDA
+import neurokit2 as nk
+import matplotlib.pyplot as plt
+#%matplotlib inline
 
 #va nous servir pour stoquer les valeurs post lissage
 listexy = []
@@ -187,31 +191,45 @@ def grapheBVP():
   plt.ylabel('Value')
 
 def grapheEDA():
-  df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard_filtre_t0.csv')
-  n=df['Electrodermal_activity'].size +1
-  freq=np.fft.fftfreq(n,d=0.1)
-  A=np.fft.fft(df['Electrodermal_activity'])
-  B = np.append(A,A[0])
- '''
-  plt.subplot(311)
-  plt.plot(df['Time_stamp'],df['Electrodermal_activity'],'.')
-  plt.xlabel('Time (s)')
-  plt.ylabel('Cond (microsiemens)')
- 
-  plt.plot( np.append(df['Electrodermal_activity'], df['Electrodermal_activity'][0]) )
- '''
-  plt.plot(freq, B.real/40, label="real")
-  plt.plot(freq, B.imag, label="imag")
-  plt.legend()
+  df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t_a.csv')
+  eda_signal=df['Electrodermal_activity']
+  # Process the raw EDA signal
+  signals, info = nk.eda_process(eda_signal, sampling_rate=250)
+  # Extract clean EDA and SCR features
+  cleaned = signals["EDA_Clean"]
+  features = [info["SCR_Onsets"], info["SCR_Peaks"], info["SCR_Recovery"]]
+  # Visualize SCR features in cleaned EDA signal
+  plot = nk.events_plot(features, cleaned, color=['red', 'blue', 'orange'])
+  # Filter phasic and tonic components
+  data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=250)
+  data["EDA_Raw"] = eda_signal  # Add raw signal
+  data.plot()
+  # Plot EDA signal
+  plot = nk.eda_plot(signals)
+
+  '''n=df['Electrodermal_activity'].size +1
+        freq=np.fft.fftfreq(n,d=0.1)
+        A=np.fft.fft(df['Electrodermal_activity'])
+        B = np.append(A,A[0])
+       
+        plt.subplot(311)
+        plt.plot(df['Time_stamp'],df['Electrodermal_activity'],'.')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Cond (microsiemens)')
+        plt.plot( np.append(df['Electrodermal_activity'], df['Electrodermal_activity'][0]) )
+       
+        plt.plot(freq, B.real/40, label="real")
+        plt.plot(freq, B.imag, label="imag")
+        plt.legend()'''
 
 def grapheHR():
-  df = pd.read_csv('../Data_E4/CSV_standard/HR_standard_t0.csv')
+  df = pd.read_csv('../SortiePython/HR_intervalle_filtred_t.csv')
   plt.plot(df['Time_stamp'],df['Av_heart_rate'],'.')
   plt.xlabel('Time (s)')
   plt.ylabel('Heart_rate (bpm)')
 
 def grapheIBI():
-  df = pd.read_csv('../Data_E4/CSV_standard/IBI_standard_t0.csv')
+  df = pd.read_csv('../SortiePython/IBI_intervalle_filtred_t.csv')
   '''g=[0]
   time_g=[0]
   eps=0.00000000001

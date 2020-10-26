@@ -148,7 +148,7 @@ def mouvementFixation(debut, duration):
   df = df[(df['start_timestamp']>=(debut+startTimeUnix)) & (df['start_timestamp']<=(debut+duration+startTimeUnix))]
   listeNorme = []
   i = 0
-  print('PLOOOOOOOOOP    ',df.loc[df.index[0],'norm_pos_x'])
+  #print('PLOOOOOOOOOP    ',df.loc[df.index[0],'norm_pos_x'])
   while i < len(df)-1 :
     deplacementX = abs(df.loc[df.index[i],'norm_pos_x']-df.loc[df.index[i+1],'norm_pos_x'])
     deplacementY = abs(df.loc[df.index[i],'norm_pos_y']-df.loc[df.index[i+1],'norm_pos_y'])

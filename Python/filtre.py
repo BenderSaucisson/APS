@@ -34,7 +34,9 @@ def filtre(chemin):
   else :
     print("erreur csv non reconnu")
 
+#Fonction traitant les csv pour ne prendre que les données inclues dans les intervalles de temps
 def filtreIntervalle(nombre, debut, fin,chemin):
+  #Spécificité de chaque csv
   if(('gaze_positions_on_surface_' in chemin) | (chemin=='gaze_positions')):
     filtre = pd.read_csv('../SortiePython/'+chemin+'_t.csv')
     colonne = 'gaze_timestamp'
@@ -52,12 +54,14 @@ def filtreIntervalle(nombre, debut, fin,chemin):
   i = 0
   reqd_IndexTot = []
   while i < nombre:
+    #On récupère l'index de chaque donnée dans l'intervalle
     reqd_Index = filtre[(filtre[colonne]>=debut[i]+getTime.get_start_time_simulateur_s()) & (filtre[colonne]<=getTime.get_start_time_simulateur_s()+fin[i])].index.tolist()
     reqd_IndexTot += reqd_Index
     i += 1
+  #La liste de sortie prend les données de la liste d'entrée dont l'index est renseigné
   filtre1 = filtre.loc[reqd_IndexTot]
   filtre1.to_csv('../SortiePython/'+chemin+'_intervalle_t.csv',index=False)
-  #on retire les derniers .csv sauf ceux de l'E4
+  #On retire les derniers .csv sauf ceux de l'E4
   if colonne != 'Time_stamp':
     os.remove('../SortiePython/'+chemin+'_t.csv')
     
@@ -149,7 +153,7 @@ def filtreSurface(chemin):
   filtre1.to_csv('../SortiePython/'+chemin+'_filtred_t.csv',index=False)
   os.remove('../SortiePython/'+chemin+'_intervalle_t.csv')
  
-
+#Fonction 
 def filtreACC():
   filtre= pd.read_csv('../SortiePython/ACC_intervalle_t.csv')
   filtre.to_csv('../SortiePython/ACC_intervalle_filtred_t.csv',index=False)
