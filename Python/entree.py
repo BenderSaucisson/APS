@@ -103,7 +103,7 @@ def variableNombreIntervales():
 #fonction récupérant l'information de ce que veux grapher l'utilisateur
 def plotCmd():
   #gros pavé explicatif
-  print("Information Graphique Possible :\n[g] : Gaze_position : position du regard\n[p] : Pupil_position : diametre de la pupille\n[b] : Blinks : Clignement des yeux\n[f] : Fixations : Fixation du regard\n[Nom_Surface] : Surface : Position du regard par rapport au référentiel de la surface")
+  print("Information Graphique Possible :\n[g] : Gaze_position : position du regard\n[p] : Pupil_position : diametre de la pupille\n[b] : Blinks : Clignement des yeux\n[f] : Fixations : Fixation du regard\n[Nom_Surface] : Surface : Position du regard par rapport au référentiel de la surface\n[A] : Accelèrometre\n[B] : Pression arterielle\n[E] : Conductance de la peau (sueur)\n[H] : Rythme cardiaque\n[I] : Intervalle entre les battements de coeur\n[T] : Capteur de température")
   print("Combien de graphique voulez vous afficher :")
   #combien de graphe l'utilisateur veut visualiser
   i = int(input())
@@ -123,6 +123,18 @@ def plotCmd():
       liste.append('blinks')
     elif entree == 'f':
       liste.append('fixations')
+    elif entree == 'A' :
+      liste.append('ACC')
+    elif entree == 'B' :
+      liste.append('B')
+    elif entree == 'E' :
+      liste.append('EDA')
+    elif entree == 'H':
+      liste.append('HR')
+    elif entree == 'I':
+      liste.append('IBI')
+    elif entree == 'T':
+      liste.append('TEMP')
     else :
       liste.append('gaze_positions_on_surface_'+entree)
     count += 1

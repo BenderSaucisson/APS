@@ -1,12 +1,12 @@
 {
-    "duration_s": 101.42464578299996,
+    "duration_s": 345.51689367900053,
     "meta_version": "2.2",
     "min_player_version": "2.0",
-    "recording_name": "2020_09_30",
+    "recording_name": "2020_10_23",
     "recording_software_name": "Pupil Capture",
     "recording_software_version": "2.3.0",
-    "recording_uuid": "500735ac-e189-4ca0-9364-a0129af9cf0d",
-    "start_time_synced_s": 767.424488158,
-    "start_time_system_s": 1601452045.741669,
+    "recording_uuid": "4cffd86e-5ba7-4937-b6e2-158b696bd20c",
+    "start_time_synced_s": 5266.637930299,
+    "start_time_system_s": 1603462579.4915757,
     "system_info": "User: dtt, Platform: Linux, Machine: dtt-HP-ZBook-Studio-G3, Release: 4.15.0-106-generic, Version: #107-Ubuntu SMP Thu Jun 4 11:27:52 UTC 2020"
 }
