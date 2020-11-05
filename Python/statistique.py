@@ -60,8 +60,8 @@ def statistique(nombre, listeDebut, listeFin):
 def DiametrePupille(debut, duration):
   #lecture csv
   df = pd.read_csv('../SortiePython/pupil_positions_filtred_t_c.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
-  startTimeUnix = getTime.get_start_time_system_s()
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
+  startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['pupil_timestamp']>=(debut+startTimeUnix)) & (df['pupil_timestamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
@@ -82,8 +82,8 @@ def DiametrePupille(debut, duration):
 def freqClignement(debut, duration):
   #lecture du csv voulu
   df =  pd.read_csv('../SortiePython/blinks_filtred_t_a.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
-  startTimeUnix = getTime.get_start_time_system_s()
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
+  startTimeUnix = getTime.get_start_time_simulateur_s()
   #on récupère chaque index correspondant à un clignement se situant entre le moment on l'on commence l'analyse jusque sa fin
   index = df[(df['start_timestamp'] > (debut+startTimeUnix)) & (df['start_timestamp'] < (debut+startTimeUnix+duration))].index.tolist()
   #Calcule de la fréquence
@@ -131,8 +131,8 @@ def pourcentageSurface():
 def dispersion(debut, duration):
   #lecture du csv
   df = pd.read_csv('../SortiePython/fixations_filtred_t_c.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
-  startTimeUnix = getTime.get_start_time_system_s()
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
+  startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['start_timestamp']>=(debut+startTimeUnix)) & (df['start_timestamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
@@ -144,7 +144,8 @@ def dispersion(debut, duration):
 
 def mouvementFixation(debut, duration):
   df = pd.read_csv('../SortiePython/fixations_filtred_t_c.csv')
-  startTimeUnix = getTime.get_start_time_system_s()
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
+  startTimeUnix = getTime.get_start_time_simulateur_s()
   df = df[(df['start_timestamp']>=(debut+startTimeUnix)) & (df['start_timestamp']<=(debut+duration+startTimeUnix))]
   listeNorme = []
   i = 0
@@ -169,7 +170,7 @@ def mouvementFixation(debut, duration):
 def RythmeCardiaque(debut, duration):
   #lecture csv
   df = pd.read_csv('../Data_E4/CSV_standard/HR_standard.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
   startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prend que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
@@ -188,7 +189,7 @@ def RythmeCardiaque(debut, duration):
 def VariationRythmeCardiaque(debut, duration):
   #lecture csv
   df = pd.read_csv('../Data_E4/CSV_standard/IBI_standard.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
   startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
@@ -206,7 +207,7 @@ def VariationRythmeCardiaque(debut, duration):
 def ConductivitePeau(debut, duration):
   #lecture csv
   df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur Pupil Player
+  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
   startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
