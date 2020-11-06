@@ -192,20 +192,24 @@ def grapheBVP():
 
 def grapheEDA():
   df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t_a.csv')
-  eda_signal=df['Electrodermal_activity']
+  index_stop=0
+  for i in range(len(df['Time_stamp'])-1):
+    if (df['Time_stamp'][i+1]-df['Time_stamp'][i])>0.25:
+      eda_signal=df['Electrodermal_activity'][index_stop:i]
   # Process the raw EDA signal
-  signals, info = nk.eda_process(eda_signal, sampling_rate=250)
+      signals, info = nk.eda_process(eda_signal, sampling_rate=8)
   # Extract clean EDA and SCR features
-  cleaned = signals["EDA_Clean"]
-  features = [info["SCR_Onsets"], info["SCR_Peaks"], info["SCR_Recovery"]]
+      cleaned = signals["EDA_Clean"]
+      features = [info["SCR_Onsets"], info["SCR_Peaks"], info["SCR_Recovery"]]
   # Visualize SCR features in cleaned EDA signal
-  plot = nk.events_plot(features, cleaned, color=['red', 'blue', 'orange'])
+  #plot = nk.events_plot(features, cleaned, color=['red', 'blue', 'orange'])
   # Filter phasic and tonic components
-  data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=250)
-  data["EDA_Raw"] = eda_signal  # Add raw signal
-  data.plot()
+      data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
+      data["EDA_Raw"] = eda_signal  # Add raw signal
+      data.plot()
   # Plot EDA signal
-  plot = nk.eda_plot(signals)
+      plot = nk.eda_plot(signals)
+      index_stop=i
 
   '''n=df['Electrodermal_activity'].size +1
         freq=np.fft.fftfreq(n,d=0.1)
