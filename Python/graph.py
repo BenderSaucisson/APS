@@ -191,19 +191,19 @@ def grapheBVP():
   plt.ylabel('Value')
 
 def grapheEDA():
-  df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t_a.csv')
+  df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  #df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
+
   eda_signal=df['Electrodermal_activity']
   # Process the raw EDA signal
-  signals, info = nk.eda_process(eda_signal, sampling_rate=250)
-  # Extract clean EDA and SCR features
-  cleaned = signals["EDA_Clean"]
-  features = [info["SCR_Onsets"], info["SCR_Peaks"], info["SCR_Recovery"]]
-  # Visualize SCR features in cleaned EDA signal
-  plot = nk.events_plot(features, cleaned, color=['red', 'blue', 'orange'])
-  # Filter phasic and tonic components
-  data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=250)
-  data["EDA_Raw"] = eda_signal  # Add raw signal
-  data.plot()
+  signals, info = nk.eda_process(eda_signal, sampling_rate=8)
+  #print(signals)  #'EDA_Raw'/'EDA_Clean'/'EDA_Tonic'/'EDA_Phasic'/'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
+  #print(info)     #'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
+  totalPeaks=len(info['SCR_Peaks'])
+  totalTime=len(signals['EDA_Raw'])/4
+
+  print("Il y a eu ",totalPeaks," Pics en ",totalTime," pour une fréquence de ",totalPeaks/totalTime," Hz")
+
   # Plot EDA signal
   plot = nk.eda_plot(signals)
 
