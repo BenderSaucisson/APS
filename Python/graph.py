@@ -193,6 +193,7 @@ def grapheBVP():
   plt.ylabel('Value')
 
 def grapheEDA():
+<<<<<<< HEAD
   df= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
   eda_signal=df['Electrodermal_activity']
   # Process the raw EDA signal
@@ -211,6 +212,21 @@ def grapheEDA():
         data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
         #data["EDA_Raw"] = eda_signal  # Add raw signal
         data.plot()'''
+=======
+  df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  #df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
+
+  eda_signal=df['Electrodermal_activity']
+  # Process the raw EDA signal
+  signals, info = nk.eda_process(eda_signal, sampling_rate=8)
+  #print(signals)  #'EDA_Raw'/'EDA_Clean'/'EDA_Tonic'/'EDA_Phasic'/'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
+  #print(info)     #'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
+  totalPeaks=len(info['SCR_Peaks'])
+  totalTime=len(signals['EDA_Raw'])/4
+
+  print("Il y a eu ",totalPeaks," Pics en ",totalTime," pour une fréquence de ",totalPeaks/totalTime," Hz")
+
+>>>>>>> 6c432eaf13b3cafccaa9917cf4871e0cb378f3b1
   # Plot EDA signal
   plot = nk.eda_plot(signals)
 
