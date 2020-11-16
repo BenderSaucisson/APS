@@ -1,2 +1,4 @@
-Debut/Fin,FrequenceClignement,MoyenneDispersion,MoyenneDiametrePupille,MaxDiametrePupille,MinDiametrePupille,InterQuantileMouvementFixation
-0/100,0.1 Hz,1.3 cm,37.3,47.1,37.3,0.067
+Debut/Fin,FrequenceClignement,MoyenneDispersion,MoyenneDiametrePupille,MaxDiametrePupille,MinDiametrePupille,InterQuantileMouvementFixation,FrequenceConductivitePeau,MaxConductivitePeau,MaxRythmeCardiaque,MinRythmeCardiaque,MoyenneConductivitePeau,MoyenneRythmeCardiaque,VariationRythmeCardiaque
+85/107,0.1 Hz,1.3 cm,33.7,38.6,33.7,0.019,0.5488507078651685,0.551988,62.5,60.55,0.5488507078651685,61.459999999999994,0.991
+128/155,0.2 Hz,1.4 cm,33.7,42.3,33.7,0.085,0.5534093119266055,0.562234,61.6,60.88,0.5534093119266055,61.073214285714286,0.971
+207/238,0.2 Hz,1.4 cm,29.7,35.3,29.7,0.018,0.5602663760000002,0.5635140000000001,65.25,64.1,0.5602663760000002,64.94875,0.926

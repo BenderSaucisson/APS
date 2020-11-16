@@ -1,6 +1,7 @@
 #importation des modules
 import stat
 import getTime
+import neurokit2 as nk
 import pandas as pd
 import numpy as np
 import math
@@ -17,13 +18,14 @@ def statistique(nombre, listeDebut, listeFin):
   listeMaxDiametrePupille = []
   listeMinDiametrePupille = []
   listeMouvementFixation = []
-  listeMoyenneRythmeCardiaque= []
-  listeMaxRythmeCardiaque= []
-  listeMinRythmeCardiaque= []
+  listeMoyenneRythmeCardiaque = []
+  listeMaxRythmeCardiaque = []
+  listeMinRythmeCardiaque = []
   listeVariationRythmeCardiaque= []
-  listeMoyenneConductivitePeau= []
-  listeMaxConductivitePeau= []
-  listeMinConductivitePeau= []
+  listeConductivitePeau = []
+  listeMoyenneConductivitePeau = []
+  listeMaxConductivitePeau = []
+  listeFrequenceConductivitePeau = []
   #création de la ligne des noms de colonnes
   stat = pd.DataFrame(columns=['Debut/Fin','FrequenceClignement','MoyenneDispersion','MoyenneDiametrePupille','MaxDiametrePupille','MinDiametrePupille','InterQuantileMouvementFixation'])
   #boucle jusqua ce que le compteur atteigne la valeur du nombre d'intervalle que l'utilisateur veut analyser
@@ -41,13 +43,14 @@ def statistique(nombre, listeDebut, listeFin):
     listeVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i]))
     #listeMaxVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[1])
     #listeMinVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[2])
-    listeMoyenneConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[0])
-    listeMaxConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[1])
-    listeMinConductivitePeau.append(ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])[2])
+    listeConductivitePeau = ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])
+    listeMoyenneConductivitePeau.append(listeConductivitePeau[0])
+    listeMaxConductivitePeau.append(listeConductivitePeau[1])
+    listeFrequenceConductivitePeau.append(listeConductivitePeau[2])
     #Quelque chose de plus jolie pour mieux représenter l'intervalle
     txt = str(listeDebut[i])+'/'+str(listeFin[i])
     #Création de la ligne à partir des autres listes
-    newRow =  {'Debut/Fin':txt,'FrequenceClignement':str(listeFreqClign[i])+' Hz','MoyenneDispersion':str(listeDispersion[i])+' cm','MoyenneDiametrePupille':listeMoyenneDiametrePupille[i],'MaxDiametrePupille':listeMaxDiametrePupille[i],'MinDiametrePupille':listeMoyenneDiametrePupille[i],'InterQuantileMouvementFixation':listeMouvementFixation[i]}
+    newRow =  {'Debut/Fin':txt,'FrequenceClignement':str(listeFreqClign[i])+' Hz','MoyenneDispersion':str(listeDispersion[i])+' cm','MoyenneDiametrePupille':listeMoyenneDiametrePupille[i],'MaxDiametrePupille':listeMaxDiametrePupille[i],'MinDiametrePupille':listeMoyenneDiametrePupille[i],'InterQuantileMouvementFixation':listeMouvementFixation[i],'MoyenneRythmeCardiaque':listeMoyenneRythmeCardiaque[i],'MaxRythmeCardiaque':listeMaxRythmeCardiaque[i],'MinRythmeCardiaque':listeMinRythmeCardiaque[i],'VariationRythmeCardiaque':listeVariationRythmeCardiaque[i],'MoyenneConductivitePeau':listeMoyenneConductivitePeau[i],'MaxConductivitePeau':listeMaxConductivitePeau[i],'FrequenceConductivitePeau':listeFrequenceConductivitePeau[i]}
     #On ajoute la ligne fraichement crée
     stat = stat.append(newRow, ignore_index=True)
     #incrémentation
@@ -195,30 +198,30 @@ def VariationRythmeCardiaque(debut, duration):
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
   moyenneVariationRythmeCardiaque = df['IBI'].mean()
-  moyenneVariationRythmeCardiaque= np.around(moyenneVariationRythmeCardiaque, decimals= 3)
   #On arrondis les valeurs pour rendre ça plus beau
-  '''moyenneDiametrePupille = np.around(moyenneDiametrePupille, decimals=1)
-  maxDiametrePupille = np.around(maxDiametrePupille, decimals=1)
-  minDiametrePupille = np.around(minDiametrePupille, decimals=1)'''
-  #création de la liste regroupant les valeurs intéressantes
+  moyenneVariationRythmeCardiaque = np.around(moyenneVariationRythmeCardiaque, decimals= 3)
   print('La moyenne de durée entre les battements de coeur est de' , moyenneVariationRythmeCardiaque, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
   return(moyenneVariationRythmeCardiaque)
 
 def ConductivitePeau(debut, duration):
   #lecture csv
-  df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
+  df= pd.read_csv('../SortiePython/EDA_a.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
   startTimeUnix = getTime.get_start_time_simulateur_s()
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
-  #calcul des valeurs intéressantes
-  moyenneConductivitePeau = df['Electrodermal_activity'].mean()
-  maxConductivitePeau = df['Electrodermal_activity'].max()
-  minConductivitePeau = df['Electrodermal_activity'].min()
-  #On arrondis les valeurs pour rendre ça plus beau
-  moyenneConductivitePeau = np.around(moyenneConductivitePeau, decimals=3)
-  maxConductivitePeau = np.around(maxConductivitePeau, decimals=3)
-  minConductivitePeau = np.around(minConductivitePeau, decimals=3)
-  #création de la liste regroupant les valeurs intéressantes
-  conductivitePeau = [moyenneConductivitePeau, maxConductivitePeau, minConductivitePeau]
-  return(conductivitePeau)
+  #Bibliothèque neurokit2
+  eda_signal=df['Electrodermal_activity']
+  # Process the raw EDA signal
+  signals, info = nk.eda_process(eda_signal, sampling_rate=8)
+  # Filter phasic and tonic components
+  data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
+
+  moyenneRaw=signals['EDA_Raw'].mean()
+  maxRaw=signals['EDA_Raw'].max()
+  totalPeaks=len(info['SCR_Peaks'])
+  totalTime=len(signals['EDA_Raw'])/4
+  freqPeak=totalPeaks/totalTime
+  print("Entre ", debut ," et ", duration ,"secondes, il y a eu ",totalPeaks," Pics en pour ",totalTime,"sec et donc une fréquence de ",freqPeak," Hz")
+  conductivitePeau = [moyenneRaw,maxRaw,moyenneRaw]
+  return conductivitePeau

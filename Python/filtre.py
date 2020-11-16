@@ -2,6 +2,8 @@
 import csv
 #le module pandas simplifie enormement l'utilisation des csv en python
 import pandas as pd
+#module pour traiter les données du capteur EDA
+import neurokit2 as nk
 #pour supprimer les dossiers antérieurs
 import os
 #importation du module getTime pour chopper le temps où l'enregistrement des csv ont commencés

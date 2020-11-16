@@ -94,10 +94,11 @@ def aberranceBlinks():
 
 #fonction permettant de trier les valeurs dans le csv de EDA, notamment celles du début
 def aberranceEDA():
-  filtre= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  #filtre= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  filtre= pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
   q1=filtre['Electrodermal_activity'].quantile(.25)
   q3=filtre['Electrodermal_activity'].quantile(.75)
   median=filtre['Electrodermal_activity'].median()
   filtre1=filtre[(filtre['Electrodermal_activity']>=(median-1.5*(q3-q1))) & (filtre['Electrodermal_activity']<=(median+1.5*(q3-q1)))]
-  filtre1.to_csv('../SortiePython/EDA_intervalle_filtred_t_a.csv',index=False)
-  os.remove('../SortiePython/EDA_intervalle_filtred_t.csv')
+  filtre1.to_csv('../SortiePython/EDA_a.csv',index=False)
+  #os.remove('../SortiePython/EDA_intervalle_filtred_t.csv')
