@@ -9,6 +9,6 @@ APSAC est un programme permettant d'analyser plusieurs fichiers (csv, json ...) 
 ### A faire !
 - Empatica : Extraire et déplacer vos csv (ACC, BVP, EDA, HR, IBI, TEMP...) : tutoriel
 - EyeTracker : Extraire et déplacer vos csv ainsi qu'un fichier json : [tutoriel](https://github.com/BenderSaucisson/APSAC/wiki/Fichiers-Eye-Tracker)
-- Simulateur : Déplacer le fichier texte de log de la simulation dans le dossier suivant "SimulateurIPG/Log" et le fichier csv des données exportée : [tutoriel](https://github.com/BenderSaucisson/APSAC/wiki/Fichiers-Simulateur-IPG)
+- SimulateurIPG : Déplacer le fichier texte de log de la simulation dans le dossier suivant "SimulateurIPG/Log" et le fichier csv des données exportée : [tutoriel](https://github.com/BenderSaucisson/APSAC/wiki/Fichiers-Simulateur-IPG)
 
 ### Statistique
