@@ -14,11 +14,16 @@ APSAC est un programme permettant d'analyser plusieurs fichiers (csv, json ...) 
 ### Explications Dossiers
 - Data_E4 : Ce dossier comprend deux autres dossiers, un qui récapitule tous les csv exportés depuis la montre empatica 'CSV_ori'. Ils ne sont pas traités contrairement aux autres csv présents dans l'autre dossier 'CSV_standard'. De base il y a 6 csv à l'origine : 'ACC' représentant les données de l'accéléromètre cela indique si l'utilisateur bouge son bras et dans quelle direction, 'BVP' représentant les données photopléthysmographique, 'EDA' représentant l'activité électrodermal en microsiemens, 'HR' quand à lui calcule le rythme cardiaque 'IBI' correspond à l'écart entre chaque battement de coeur et 'TEMP' représentant la température que perçoit le capteur en degrées C°.
   Tous ces csv vont donc passer dans un filtre pour se faire standardiser, aussi bien au niveau du format du csv (bien avoir une première ligne décrivant le contenu du csv) qu'au niveau des timestamps (que tous les csv commencent au bon moment). 
+  
 - EyeTracker : Ce dossier comprend un fichier json qui n'aura qu'une seule utilité, savoir les timestamps à laquelle commence l'enregistrement des csv venant de l'EyeTracker. Dans le dossier exporté (export) il y aura tout les csv exporté venant de l'EyeTracker : blinks.csv pour les données concernant le clignement des yeux, fixations.csv pour savoir quand est ce que l'utilisateur fixe quelque chose et où, gaze_positions.csv pour savoir où est ce que l'utilisateur regarde et pupil_positions.csv pour savoir comment se comporte les yeux de l'utilisateur (diamètre pupillaire...)
   Si durant l'enregistrement de l'EyeTracker le plugin de surface à été utilisé alors, un autre csv est présent dans le dossier surface qui est lui même dans le dossier d'export. Il s'appelle gaze_positions_on_surface_NomDeVotreSurface.csv et à toutes les données nécessaire liée à la surface
+  
 - Python : Ce dossier contient tout le code nécessaire pour que le programme fonctionne. Comme le nom du dossier le fait comprendre, le programme est codé en Pyhton. Je ne détaillerais pas plus le fonctionnement du code ici, je le ferais dans une autre rubrique.
+
 - SimulateurIPG : Dedans on retrouve deux sous-dossier, il y a 'Donnée' un dossier dans lequel est présent le csv exporté à partir de l'application du simulateurIPG. Il y a aussi le sous-dossier 'Log'. Dans celui ci se trouve un fichier txt qui représente les logs de la session d'enregistrement son unique utilité est de donné au programme le temps où la simulation a commencé.
+
 - SortiePython : Ce dossier récapitule tous les csv passant en entrée du programme après avoir subis un ensemble de filtre propre à chacun. Il y a nottament des filtres par rapport à l'aberrance des valeurs, par rapport au changement de timestamp, selon un intervalle, selon la confidence...
+
 - imageTuto : Dossier utile uniquement pour la création du tutoriel. Ce dossier est utilisé comme espace de stockage des images afin de les faire référencer ensuite dans le tutoriel
 
 ### Module Python
