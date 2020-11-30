@@ -21,8 +21,15 @@ Nous pouvons calculer grâce au programme : la fréquence de clignement, la disp
 - EyeTracker : Extraire et déplacer vos csv ainsi qu'un fichier json : [tutoriel](https://github.com/BenderSaucisson/APSAC/wiki/Fichiers-Eye-Tracker)
 - SimulateurIPG : Déplacer le fichier texte de log de la simulation dans le dossier suivant "SimulateurIPG/Log" et le fichier csv des données exportée : [tutoriel](https://github.com/BenderSaucisson/APSAC/wiki/Fichiers-Simulateur-IPG)
 
-
-
-
+### Marche à suivre
+- Bien vous situer dans le dossier python de notre github puis lancer la console
+- 'python Main.py'
+- 'NomDuFichierExport'
+- 'NombreDeSurfaces'
+- 'NomDesSurfaces'
+- 'CombienIntervallesVousVoulez'
+- 'QuoiCommeIntervalles'
+- 'CombienDeGraphVousVoulez'
+- 'QuoiGrapher'
 
 
