@@ -5,13 +5,13 @@ ET = EyeTracker
 Mise en place de l'ET :
 
 - Être assis confortablement sur une chaise :
-    En effet être debout pendant l'utilisation de l'ET peut biaiser les résultat.
+    En effet être debout pendant l'utilisation de l'ET peut biaiser les résultats.
 - Reposé son dos sur le dossier de la chaise :
-    Moins le corps aura de mouvement plus les résultats seront représentatifs de la simulation
+    Moins le corps aura de mouvements plus les résultats seront représentatifs de la simulation.
 - Bien positioné la plaquelle de l'ET :
-    La plaquelle est la partie qui se repose sur le nez, il ne faut pas hésiter à un peu l'enfoncer autour du nez là encore cela favorisera les résultats
+    La plaquelle est la partie qui se repose sur le nez, il ne faut pas hésiter à un peu l'enfoncer autour du nez là encore cela favorisera les résultats.
 - Une fois l'ET bien placé sur la tête de la personne il faut voir si les yeux sont détecté par le logiciel :
-    Cette étape peut prendre plusieurs longues minutes, la meilleure façon de faire est de bouger petit à petit les caméra oculaires tout en regardant le rendu sur le logiciel
+    Cette étape peut prendre plusieurs longues minutes, la meilleure façon de faire est de bouger petit à petit les caméras oculaires tout en regardant le rendu sur le logiciel
 pour se rapprocher de plus en plus de la situation parfaite
 
 A partir de maintenant nous pouvons calibrer le regard de la personne. plusieurs options s'offrent à nous :
