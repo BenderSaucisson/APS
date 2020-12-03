@@ -30,12 +30,20 @@ Avant toute chose les graphiques présentés sur la page d'examples sont sans in
 ### Marche à suivre
 - Bien vous situer dans le dossier python de notre github puis lancer la console
 - 'python Main.py'
+"Votre nom de fichier d'export :"
 - 'NomDuFichierExport'
+"Combien de surfaces utilisées avez vous differencié avec Pupil Player :"
 - 'NombreDeSurfacesUtilisés'
+"Comment s'appelle vos surfaces :"
 - 'NomDesSurfaces'
+"Combien d'intervalles voulez vous examiner : "
 - 'CombienIntervallesVousVoulez'
+"Début de l'intervalle n°", i+1," en seconde :"
+"Fin de l'intervalle n°", i+1," en seconde :"
 - 'QuoiCommeIntervalles'
+"Combien de graphique voulez vous afficher :"
 - 'CombienDeGraphVousVoulez'
+"Quel graphique voulez vous afficher :"
 - 'QuoiGrapher'
 
 
