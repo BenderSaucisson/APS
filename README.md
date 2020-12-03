@@ -19,7 +19,7 @@ Nous pouvons calculer grâce au programme : la fréquence de clignement, la disp
 ### Exemples
 Après avoir télécharger notre archive du projet à partir de github, vous pouvez désormais constater qu'il y a déjà un jeu de valeur présent (tous les csv tels que blinks...) Essayer donc avant toute chose de tester la rubrique 'Marche à suivre' sur ce jeu de valeur, à partir de plusieurs images je montrerai ce qui est important d'observer pour voir si ces données sont utilisable.
 
-Pour voir les multiples exemple de graph c'est [ici](https://github.com/BenderSaucisson/APSAC/wiki/Examples)
+Pour voir les multiples exemple de graph c'est [ici](https://github.com/BenderSaucisson/APSAC/wiki/Exemples)
 Avant toute chose les graphiques présentés sur la page d'examples sont sans informations pendant certains intervalles, la raison est quand l'on veut utiliser notre application il faut renseigner des intervales d'études et si des valeurs sont en dehors de tous les intervalles d'études alors elles sont supprimés.
 
 ### Déplacement Dossier
