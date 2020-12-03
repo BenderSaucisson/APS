@@ -1,0 +1,3 @@
+Dedans on retrouve deux sous-dossier, il y a 'Donnée' un dossier dans lequel est présent le csv exporté à partir de l'application du simulateurIPG. 
+Il y a aussi le sous-dossier 'Log'. Dans celui ci se trouve un fichier txt qui représente les logs de la session d'enregistrement son unique utilité 
+est de donné au programme le temps où la simulation a commencé.
