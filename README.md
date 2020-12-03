@@ -4,10 +4,24 @@ APSAC est un programme permettant d'analyser plusieurs fichiers (csv, json ...) 
 ### Pourquoi ce projet ? Et comment ?
 
 ### Explications Dossiers
-Pour voir cette explication [cliquez ici](https://github.com/BenderSaucisson/APSAC/wiki/Explication-Dossiers-Github)
+- DataE4 : Dossier ayant les csv extrait de la montre empatica 
+- EyeTracker : Dossier regroupant tous les csv de l'EyeTracker ainsi qu'un fichier info
+- Python : Tous les modules python du programmes sont ici
+- SimulateurIPG : Dossier avec toutes les info importantes venant du simulateur
+- SortiePython : Tous les csv traités de part le programme python 
+- imageTuto : Toutes les images utilisées par le wiki github
+Pour voir cette explication complète : [cliquez ici](https://github.com/BenderSaucisson/APSAC/wiki/Explication-Dossiers-Github)
 
 ### Module Python
-Pour voir cette explication [cliquez ici](https://github.com/BenderSaucisson/APSAC/wiki/Explication-Module-Python)
+- Main.py : Toutes les fonctions principales du programme se font traités ici
+- entree.py : Traite ce que doit écrire l'utilisateur
+- filtre.py : Filtrere toutes les données voulu 
+- arrangeTime.py : Convertit les timestamps des csv
+- getTime.py : Récupère les données de commencement de la simulation
+- confidence.py : Filtre les données non conforme
+- aberrance.py : Filtre les données aberrantes 
+- statistique.py : Création des statistques voulues
+Pour voir cette explication complète : [cliquez ici](https://github.com/BenderSaucisson/APSAC/wiki/Explication-Module-Python)
 
 ### Matériels
 - [EyeTracker](https://pupil-labs.com/products/core/)
