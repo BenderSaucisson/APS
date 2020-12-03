@@ -1,6 +1,8 @@
 # APSAC
 APSAC est un programme permettant d'analyser plusieurs fichiers (csv, json ...) afin d'en sortir plusieurs statistiques.
 
+### Pourquoi ce projet ? Et comment ?
+
 ### Explications Dossiers
 Pour voir cette explication [cliquez ici](https://github.com/BenderSaucisson/APSAC/wiki/Explication-Dossiers-Github)
 
