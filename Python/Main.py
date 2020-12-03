@@ -1,5 +1,11 @@
-#importation des modules
+'''
+Module principale par où se lance le programme, il réunit toutes les fonctions principales des autres modules et les mets dans le bon ordre pour que l'execution se passe bien. 
+On importe tout les autres modules dans celui ci pour utiliser leurs fonctions. Dans ce module l'ordre des fonctions est important en effet après le passage d'un csv dans un filtre 
+il ne porte plus le même nom donc si les étapes sont faites dans le désordre plus possible de se repérer. 
+Il est aussi important de faire certains filtres avant d'autres pour des questions de cohérence.
+'''
 
+#importation des modules
 #importation du module visant à rendre utilisable la variable temps (en UNIX)
 import arrangeTime
 import arrangeTime_e4
