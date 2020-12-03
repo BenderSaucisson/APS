@@ -1,3 +1,8 @@
+'''
+La encore un module de filtrage, il permet d'effacer les lignes qui sont des valeurs aberrantes. Une valeur aberrante est considérée comme tel quand elle est 
+inférieur a : quantile(25%)-(ecartInterquantile1.5) ou quand elle est supérieur a : quantile(75%)-(ecartInterquantile1.5) ces valeurs ne sont pas du tout arbitraire c'est un référentile en terme de statistique.
+'''
+
 #importation des modules
 import csv
 #le module pandas simplifie enormement l'utilisation des csv en python
