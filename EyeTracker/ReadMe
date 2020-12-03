@@ -1,0 +1,6 @@
+Ce dossier comprend un fichier json qui n'aura qu'une seule utilité, savoir les timestamps à laquelle commence l'enregistrement des csv venant de l'EyeTracker.
+Dans le dossier exporté (export) il y aura tout les csv exporté venant de l'EyeTracker : blinks.csv pour les données concernant le clignement des yeux, fixations.csv 
+pour savoir quand est ce que l'utilisateur fixe quelque chose et où, gaze_positions.csv pour savoir où est ce que l'utilisateur regarde et pupil_positions.csv pour 
+savoir comment se comporte les yeux de l'utilisateur (diamètre pupillaire...) Si durant l'enregistrement de l'EyeTracker le plugin de surface à été utilisé alors, un 
+autre csv est présent dans le dossier surface qui est lui même dans le dossier d'export. Il s'appelle gaze_positions_on_surface_NomDeVotreSurface.csv et à toutes les 
+données nécessaire liée à la surface
