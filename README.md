@@ -2,7 +2,7 @@
 APSAC est un programme permettant d'analyser plusieurs fichiers (csv, json ...) afin d'en sortir plusieurs statistiques.
 
 ### Pourquoi ce projet ? Et comment ?
-
+Ce sujet nous a été proposé comme sujet de Stage par un laboratoire de recherche, le CERV, associé à notre école, l'ENIB. Nous avons choisis de coder avec le language Python car, nous sommes à l'aise avec ce language, plusieurs bibliothèque comme pandas pourrons fortement nous simplifier le projet et ce language est plutôt simple d'utilisation.
 
 ### Explications Dossiers
 - DataE4 : Dossier ayant les csv extrait de la montre empatica 
@@ -30,10 +30,6 @@ Pour voir cette explication complète : [cliquez ici](https://github.com/BenderS
 - [EyeTracker](https://pupil-labs.com/products/core/)
 - [Simulateur Voiture Autonome](https://ipg-automotive.com/fr/)
 - [Montre Connectée](https://www.empatica.com/en-eu/research/e4/)
-
-### Statistique
-A partir de chaque statistique que je vais citer nous pouvons obtenir le minimum, maximum moyenne et médiane.
-Nous pouvons calculer grâce au programme : la fréquence de clignement, la dispersion du son regard, le diamètre pupillaire, la distance entre chaque fixations, le rythme cardiaque, la conductivité de la peau
 
 ### Exemples
 Après avoir télécharger notre archive du projet à partir de github, vous pouvez désormais constater qu'il y a déjà un jeu de valeur présent (tous les csv tels que blinks...) Essayer donc avant toute chose de tester la rubrique 'Marche à suivre' sur ce jeu de valeur, à partir de plusieurs images je montrerai ce qui est important d'observer pour voir si ces données sont utilisable.
@@ -65,4 +61,6 @@ Avant toute chose les graphiques présentés sur la page d'examples sont sans in
 "Quel graphique voulez vous afficher :"
 - 'QuoiGrapher'
 
-
+### Statistique
+A partir de chaque statistique que je vais citer nous pouvons obtenir le minimum, maximum moyenne et médiane.
+Nous pouvons calculer grâce au programme : la fréquence de clignement, la dispersion du son regard, le diamètre pupillaire, la distance entre chaque fixations, le rythme cardiaque, la conductivité de la peau
