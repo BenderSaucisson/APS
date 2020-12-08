@@ -1,0 +1,7 @@
+Ce dossier comprend deux autres dossiers, un qui récapitule tous les csv exportés depuis la montre empatica 'CSV_ori'. 
+Ils ne sont pas traités contrairement aux autres csv présents dans l'autre dossier 'CSV_standard'. 
+De base il y a 6 csv à l'origine : 'ACC' représentant les données de l'accéléromètre cela indique si l'utilisateur bouge son bras 
+et dans quelle direction, 'BVP' représentant les données photopléthysmographique, 'EDA' représentant l'activité électrodermal en 
+microsiemens, 'HR' quand à lui calcule le rythme cardiaque 'IBI' correspond à l'écart entre chaque battement de coeur et 'TEMP' représentant 
+la température que perçoit le capteur en degrées C°. Tous ces csv vont donc passer dans un filtre pour se faire standardiser, aussi bien au 
+niveau du format du csv (bien avoir une première ligne décrivant le contenu du csv) qu'au niveau des timestamps (que tous les csv commencent au bon moment).

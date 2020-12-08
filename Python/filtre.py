@@ -1,3 +1,10 @@
+'''
+Ce module comme beaucoup d'autres va filtrer un csv pour en creer un autre. La difference avec les autres modules de filtrage c'est que celui ci va filtrer de façon plus large le csv. 
+Il ne va garder seulement les colonnes qui on un intérêt pour nous, tout ça en fonction du nom du csv. Si le csv s'appelle 'blink' alors il sera filtré d'une certaine façon, 
+ce qui sera complètement différent du csv 'gaze_position'. Il va aussi supprimer certaines lignes qui ne nous intéressent pas en fonction de ce qu'on a rentrée comme intervalle en entrée dans la console. 
+Dans le filtre de pupil_position on rajoute le fait qu'on doit moyenner la valeur des deux yeux pour avoir un diamètre pupillaire correcte.
+'''
+
 #importation des modules
 import csv
 #le module pandas simplifie enormement l'utilisation des csv en python

@@ -1,3 +1,9 @@
+'''
+Ce module gère tout ce que l'utilisateur devra rentrer dans la console comme (dans l'ordre :) la localisation du fichier d'exportation des données, 
+le nombre de surface enregistrées dans pupil player, leurs noms, le nombre d'intervalle à examiner, leurs débuts et commencements, ainsi que le nombre et contenu de graph à afficher. 
+Il va aussi gérer si l'utilisateur écris des valeurs qui n'ont aucun sens comme un entier au lieu d'un texte, en renvoyant une erreur précisant pourquoi il n'a pas le droit de faire ça.
+'''
+
 import graph
 from pathlib import Path
 import os

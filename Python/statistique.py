@@ -1,3 +1,8 @@
+'''
+Gros module regroupant toutes les stats à faire. Contrairement au module de grah, toutes les statistique possible nous les faisons et les stockons dans un fichier csv. 
+Chaque statistique sera associé à un intervalle. Nous urons donc chaque statistique pour chaque intervalles different. Il sera ensuite lié au module de graph pour que l'on graph ces données.
+'''
+
 #importation des modules
 import stat
 import getTime

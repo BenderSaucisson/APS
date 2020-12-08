@@ -1,3 +1,9 @@
+'''
+Ce module va filtrer toutes les lignes qui n'ont pas une confidence supérieur à 0.6. La confidence est la valeur de confiance envers la donnée que nous donne le logiciel. 
+0 = Médiocre, 1 = Très bonne. Nous avons choisis 0.6 car le site le conseillait. Bien entendu il ne faut pas appliquer ce filtre sur 'blink.csv' car le principe du clignement 
+est qui'il y a une chute brute dans la confidence pour qu'il soit considéré comme tel.
+'''
+
 import pandas as pd
 import csv
 import os

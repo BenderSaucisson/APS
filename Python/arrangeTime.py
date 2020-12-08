@@ -1,3 +1,9 @@
+'''
+Un problème dans l'utilisation du matériel tel que l'EyeTracker est que le temps est relative au système, elle n'a donc aucun sens si nous la prenons tel quel. 
+Il est donc nécessaire de la réajuster à l'aide d'un autre module, 'getTime' (que l'on expliquera plus tard). Pour cela il faut prendre la valeur du csv et lui faire subi des opérations pour arriver au temps UNIX. 
+Ce qui est beaucoup plus simple pour travailler avec plusieurs appareil/système en simultané dans un programme.
+'''
+
 import csv
 #importation du module pour savoir quand l'enregistrement a commencé (UNIX)
 import getTime

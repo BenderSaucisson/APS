@@ -1,3 +1,7 @@
+'''
+On récupère la valeur de temps relative et absolu de commencement de l'enregistrement des données. On les récupère dans le fichier 'info.player.json'.
+'''
+
 import json
 import time
 import datetime
