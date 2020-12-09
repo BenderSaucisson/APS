@@ -1,10 +1,3 @@
-'''
-Ce module comme beaucoup d'autres va filtrer un csv pour en creer un autre. La difference avec les autres modules de filtrage c'est que celui ci va filtrer de façon plus large le csv. 
-Il ne va garder seulement les colonnes qui on un intérêt pour nous, tout ça en fonction du nom du csv. Si le csv s'appelle 'blink' alors il sera filtré d'une certaine façon, 
-ce qui sera complètement différent du csv 'gaze_position'. Il va aussi supprimer certaines lignes qui ne nous intéressent pas en fonction de ce qu'on a rentrée comme intervalle en entrée dans la console. 
-Dans le filtre de pupil_position on rajoute le fait qu'on doit moyenner la valeur des deux yeux pour avoir un diamètre pupillaire correcte.
-'''
-
 #importation des modules
 import csv
 #le module pandas simplifie enormement l'utilisation des csv en python
@@ -44,7 +37,7 @@ def filtre(chemin):
     print("erreur csv non reconnu")
 
 #Fonction traitant les csv pour ne prendre que les données inclues dans les intervalles de temps
-def filtreIntervalle(nombre, debut, fin,chemin):
+def filtreIntervalle(ID,nombre, debut, fin,chemin):
   #Spécificité de chaque csv
   if(('gaze_positions_on_surface_' in chemin) | (chemin=='gaze_positions')):
     filtre = pd.read_csv('../SortiePython/'+chemin+'_t.csv')
@@ -64,20 +57,26 @@ def filtreIntervalle(nombre, debut, fin,chemin):
   reqd_IndexTot = []
   while i < nombre:
     #On récupère l'index de chaque donnée dans l'intervalle
-    reqd_Index = filtre[(filtre[colonne]>=debut[i]+getTime.get_start_time_simulateur_s()) & (filtre[colonne]<=getTime.get_start_time_simulateur_s()+fin[i])].index.tolist()
+    reqd_Index = filtre[(filtre[colonne]>=debut[i]+getTime.get_start_time_simulateur_s(ID)) & (filtre[colonne]<=getTime.get_start_time_simulateur_s(ID)+fin[i])].index.tolist()
     reqd_IndexTot += reqd_Index
     i += 1
   #La liste de sortie prend les données de la liste d'entrée dont l'index est renseigné
   filtre1 = filtre.loc[reqd_IndexTot]
+  filtre1[colonne]= filtre1[colonne]-getTime.get_start_time_simulateur_s(ID)
   filtre1.to_csv('../SortiePython/'+chemin+'_intervalle_t.csv',index=False)
   #On retire les derniers .csv sauf ceux de l'E4
   if colonne != 'Time_stamp':
     os.remove('../SortiePython/'+chemin+'_t.csv')
+    reqd_Index=filtre[(filtre[colonne]>=getTime.get_start_time_simulateur_s(ID))].index.tolist()
+    #La liste de sortie prend les données de la liste d'entrée dont l'index est renseigné
+    filtre2 = filtre.loc[reqd_Index]
+    filtre2[colonne]= filtre2[colonne]-getTime.get_start_time_simulateur_s(ID)
+    filtre2.to_csv('../SortiePython/'+chemin+'_t.csv',index=False)
     
 #fonction permettant de filtrer les colonnes voulu du gaze_position.csv
 def filtreGazePosition():
   #on va dans le dossier où se trouvent les csv pour les lirent
-  filtre =  pd.read_csv('../SortiePython/gaze_positions_intervalle_t.csv')
+  filtre =  pd.read_csv('../SortiePython/gaze_positions_t.csv')
   #timestamp : unité de temps, confidence : véracité de la valeur, norm_pos : position du regard sur l'image de la caméra frontale (world)
   filtre1 = filtre[['gaze_timestamp','confidence','norm_pos_x','norm_pos_y']]
   #on enregistre le nouveau csv dans un fichier plus "près"
@@ -86,7 +85,7 @@ def filtreGazePosition():
 
 #fonction permettant de filtrer les colonnes voulu du blinks.csv
 def filtreBlink():
-  filtre =  pd.read_csv('../SortiePython/blinks_intervalle_t.csv')
+  filtre =  pd.read_csv('../SortiePython/blinks_t.csv')
   #timestamp : temps où le clignement a commencé, duration durée du clignement
   filtre1 = filtre[['start_timestamp','duration']]
   filtre1.to_csv('../SortiePython/blinks_filtred_t.csv',index=False)
@@ -118,7 +117,7 @@ def intervalleBlink():
 #Mais aussi de filtrer les valeurs non voulu si la personne ferme les yeux 
 def filtrePupilPosition():
   #lecture du csv voulu
-  filtre =  pd.read_csv('../SortiePython/pupil_positions_intervalle_t.csv')
+  filtre =  pd.read_csv('../SortiePython/pupil_positions_t.csv')
   #on récupère les intervalles où la personne ferme les yeux
   listeIntervalle = intervalleBlink()
 
@@ -148,7 +147,7 @@ def filtrePupilPosition():
 
 #fonction permettant de filtrer les colonnes voulu du fixations.csv
 def filtreFixations():
-  filtre =  pd.read_csv('../SortiePython/fixations_intervalle_t.csv')
+  filtre =  pd.read_csv('../SortiePython/fixations_t.csv')
   #timestamp : temps où la fixation a commencé, duration : durée de la fixation,norm_pos : position du regard sur l'image de la caméra frontale, confidence : véracité de la valeur
   filtre1 = filtre[['start_timestamp','duration','norm_pos_x','norm_pos_y','confidence','dispersion']]
   filtre1.to_csv('../SortiePython/fixations_filtred_t.csv',index=False)
@@ -156,7 +155,7 @@ def filtreFixations():
 
 #fonction permettant de filtrer les colonnes voulu du ..._surface.csv
 def filtreSurface(chemin):
-  filtre =  pd.read_csv('../SortiePython/'+chemin+'_intervalle_t.csv')
+  filtre =  pd.read_csv('../SortiePython/'+chemin+'_t.csv')
   #timestamp : temps où la fixation a commencé, x_scaled : position du regard sur la surface et son référentiel, on_surf : regard sur la surface ou non, confidence : véracité de la valeur
   filtre1 = filtre[['gaze_timestamp','x_scaled','y_scaled','on_surf','confidence']]
   filtre1.to_csv('../SortiePython/'+chemin+'_filtred_t.csv',index=False)

@@ -1,8 +1,3 @@
-'''
-La encore un module de filtrage, il permet d'effacer les lignes qui sont des valeurs aberrantes. Une valeur aberrante est considérée comme tel quand elle est 
-inférieur a : quantile(25%)-(ecartInterquantile1.5) ou quand elle est supérieur a : quantile(75%)-(ecartInterquantile1.5) ces valeurs ne sont pas du tout arbitraire c'est un référentile en terme de statistique.
-'''
-
 #importation des modules
 import csv
 #le module pandas simplifie enormement l'utilisation des csv en python
@@ -84,7 +79,7 @@ def aberranceBlinks():
   os.remove('../SortiePython/blinks_filtred_t.csv')
 
 #fonction permettant de trier les valeurs aberrantes dans le csv de pupil_positions, nottament celles qui on un diamètre trop élevé ou trop grand
-'''def aberrancePupilPosition():
+def aberrancePupilPosition():
   #On fait pareil ici, sauf que l'on change le nom des variables
   filtre =  pd.read_csv('../SortiePython/pupil_positions_filtred_t_c.csv')
   q1 = filtre['diameter'].quantile(.25)
@@ -95,12 +90,13 @@ def aberranceBlinks():
   #timestamp : unité de temps, confidence : véracité de la valeur, diameter : diamètre de la pupille
   filtre.to_csv('../SortiePython/pupil_positions_filtred_t_c_a.csv',index=False)
   #supprime le fichier csv antérieur
-  os.remove('../SortiePython/pupil_positions_filtred_t_c.csv')'''
+  os.remove('../SortiePython/pupil_positions_filtred_t_c.csv')
 
 #fonction permettant de trier les valeurs dans le csv de EDA, notamment celles du début
 def aberranceEDA():
   #filtre= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
-  filtre= pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
+  filtre= pd.read_csv('../Data_E4/CSV_standard/EDA_standard_t0.csv')
+  filtre=filtre[filtre["Time_stamp"]>=0]
   q1=filtre['Electrodermal_activity'].quantile(.25)
   q3=filtre['Electrodermal_activity'].quantile(.75)
   median=filtre['Electrodermal_activity'].median()

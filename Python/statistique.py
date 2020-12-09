@@ -1,8 +1,3 @@
-'''
-Gros module regroupant toutes les stats à faire. Contrairement au module de grah, toutes les statistique possible nous les faisons et les stockons dans un fichier csv. 
-Chaque statistique sera associé à un intervalle. Nous urons donc chaque statistique pour chaque intervalles different. Il sera ensuite lié au module de graph pour que l'on graph ces données.
-'''
-
 #importation des modules
 import stat
 import getTime
@@ -13,63 +8,72 @@ import math
 import matplotlib.pyplot as plt
 
 #fonction principale du module statistique
-def statistique(nombre, listeDebut, listeFin):
+def statistique(ID,nombre, listeDebut, listeFin,stat):
   #variable compteur
   i = 0
-  #création de liste pour stocker les résultats et ensuite les plot
-  listeFreqClign = []
-  listeDispersion = []
-  listeMoyenneDiametrePupille = []
-  listeMaxDiametrePupille = []
-  listeMinDiametrePupille = []
-  listeMouvementFixation = []
-  listeMoyenneRythmeCardiaque = []
-  listeMaxRythmeCardiaque = []
-  listeMinRythmeCardiaque = []
-  listeVariationRythmeCardiaque= []
-  listeConductivitePeau = []
-  listeMoyenneConductivitePeau = []
-  listeMaxConductivitePeau = []
-  listeFrequenceConductivitePeau = []
-  #création de la ligne des noms de colonnes
-  stat = pd.DataFrame(columns=['Debut/Fin','FrequenceClignement','MoyenneDispersion','MoyenneDiametrePupille','MaxDiametrePupille','MinDiametrePupille','InterQuantileMouvementFixation'])
   #boucle jusqua ce que le compteur atteigne la valeur du nombre d'intervalle que l'utilisateur veut analyser
   while i < nombre :
-    #On ajoute chaque statistique une par une dans chaque liste
-    listeFreqClign.append(freqClignement(listeDebut[i],listeFin[i]-listeDebut[i]))
-    listeDispersion.append(dispersion(listeDebut[i],listeFin[i]-listeDebut[i]))
-    listeMoyenneDiametrePupille.append(DiametrePupille(listeDebut[i],listeFin[i]-listeDebut[i])[0])
-    listeMaxDiametrePupille.append(DiametrePupille(listeDebut[i],listeFin[i]-listeDebut[i])[1])
-    listeMinDiametrePupille.append(DiametrePupille(listeDebut[i],listeFin[i]-listeDebut[i])[2])
-    listeMouvementFixation.append(mouvementFixation(listeDebut[i],listeFin[i]-listeDebut[i]))
-    listeMoyenneRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[0])
-    listeMaxRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[1])
-    listeMinRythmeCardiaque.append(RythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i])[2])
-    listeVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i]))
-    #listeMaxVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[1])
-    #listeMinVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[2])
-    listeConductivitePeau = ConductivitePeau(listeDebut[i],listeFin[i]-listeDebut[i])
-    listeMoyenneConductivitePeau.append(listeConductivitePeau[0])
-    listeMaxConductivitePeau.append(listeConductivitePeau[1])
-    listeFrequenceConductivitePeau.append(listeConductivitePeau[2])
-    #Quelque chose de plus jolie pour mieux représenter l'intervalle
-    txt = str(listeDebut[i])+'/'+str(listeFin[i])
-    #Création de la ligne à partir des autres listes
-    newRow =  {'Debut/Fin':txt,'FrequenceClignement':str(listeFreqClign[i])+' Hz','MoyenneDispersion':str(listeDispersion[i])+' cm','MoyenneDiametrePupille':listeMoyenneDiametrePupille[i],'MaxDiametrePupille':listeMaxDiametrePupille[i],'MinDiametrePupille':listeMoyenneDiametrePupille[i],'InterQuantileMouvementFixation':listeMouvementFixation[i],'MoyenneRythmeCardiaque':listeMoyenneRythmeCardiaque[i],'MaxRythmeCardiaque':listeMaxRythmeCardiaque[i],'MinRythmeCardiaque':listeMinRythmeCardiaque[i],'VariationRythmeCardiaque':listeVariationRythmeCardiaque[i],'MoyenneConductivitePeau':listeMoyenneConductivitePeau[i],'MaxConductivitePeau':listeMaxConductivitePeau[i],'FrequenceConductivitePeau':listeFrequenceConductivitePeau[i]}
     #On ajoute la ligne fraichement crée
-    stat = stat.append(newRow, ignore_index=True)
+    stat = stat.append(ligneStatistique(ID,listeDebut,listeFin,i), ignore_index=True)
     #incrémentation
     i += 1
-  plt.show()
+  return stat
+  #plt.show()
+
+
+def ligneStatistique(ID,listeDebut,listeFin,i):
+  '''#création de liste pour stocker les résultats et ensuite les plot
+        listeFreqClign = []
+        listeDispersion = []
+        listeMoyenneDiametrePupille = []
+        listeMaxDiametrePupille = []
+        listeMinDiametrePupille = []
+        listeMouvementFixation = []
+        listeMoyenneRythmeCardiaque = []
+        listeMaxRythmeCardiaque = []
+        listeMinRythmeCardiaque = []
+        listeVariationRythmeCardiaque= []
+        listeConductivitePeau = []
+        listeMoyenneConductivitePeau = []
+        listeMaxConductivitePeau = []
+        listeFrequenceConductivitePeau = []'''
+  debut=listeDebut[i]
+  duration=listeFin[i] - listeDebut[i]
+  #On ajoute chaque statistique une par une dans chaque liste
+  listeFreqClign=freqClignement(ID,debut,duration)
+  #listeDispersion.append(dispersion(listeDebut[i],listeFin[i]-listeDebut[i]))
+  listeDiametrePupille=DiametrePupille(ID,debut,duration)
+  listeMoyenneDiametrePupille=listeDiametrePupille[0]
+  listeMaxDiametrePupille=listeDiametrePupille[1]
+  listeMinDiametrePupille=listeDiametrePupille[2]
+  #listeMouvementFixation.append(mouvementFixation(listeDebut[i],listeFin[i]-listeDebut[i]))
+  listeRythmeCardiaque=RythmeCardiaque(ID,debut,duration)
+  listeMoyenneRythmeCardiaque=listeRythmeCardiaque[0]
+  listeMaxRythmeCardiaque=listeRythmeCardiaque[1]
+  listeMinRythmeCardiaque=listeRythmeCardiaque[2]
+  #listeVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeFin[i]-listeDebut[i]))
+  #listeMaxVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[1])
+  #listeMinVariationRythmeCardiaque.append(VariationRythmeCardiaque(listeDebut[i],listeDebut[i]+listeFin[i])[2])
+  listeConductivitePeau = ConductivitePeau(debut,duration)
+  listeMoyenneConductivitePeau=listeConductivitePeau[0]
+  listeMaxConductivitePeau=listeConductivitePeau[1]
+  listeFrequenceConductivitePeau=listeConductivitePeau[2]
+  #Quelque chose de plus jolie pour mieux représenter l'intervalle
+  txt = str(listeDebut[i])+'/'+str(listeFin[i])
+  #Création de la ligne à partir des autres listes
+  newRow =  {'ID':ID,'Debut/Fin':txt,'FrequenceClignement':str(listeFreqClign)+' Hz','MoyenneDiametrePupille':listeMoyenneDiametrePupille,'MaxDiametrePupille':listeMaxDiametrePupille,'MinDiametrePupille':listeMoyenneDiametrePupille,'MoyenneRythmeCardiaque':listeMoyenneRythmeCardiaque,'MaxRythmeCardiaque':listeMaxRythmeCardiaque,'MinRythmeCardiaque':listeMinRythmeCardiaque,'MoyenneConductivitePeau':listeMoyenneConductivitePeau,'MaxConductivitePeau':listeMaxConductivitePeau,'FrequenceConductivitePeau':listeFrequenceConductivitePeau}
+  return newRow
+   
+def statistiquecsv(stat):
   #création du csv
   stat.to_csv('../SortiePython/statistique.csv', index = False)
 
 #calcul de tout les stats par rapport au diamètre de la pupille
-def DiametrePupille(debut, duration):
+def DiametrePupille(ID,debut, duration):
   #lecture csv
   df = pd.read_csv('../SortiePython/pupil_positions_filtred_t_c.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['pupil_timestamp']>=(debut+startTimeUnix)) & (df['pupil_timestamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
@@ -87,17 +91,17 @@ def DiametrePupille(debut, duration):
 
 #fonction permettant de calculer la fréquence de clignement des yeux sur un intervalle donné
 #debut : instant t ou commence l'analyse, duration : durée de l'analyse
-def freqClignement(debut, duration):
+def freqClignement(ID,debut, duration):
   #lecture du csv voulu
   df =  pd.read_csv('../SortiePython/blinks_filtred_t_a.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   #on récupère chaque index correspondant à un clignement se situant entre le moment on l'on commence l'analyse jusque sa fin
   index = df[(df['start_timestamp'] > (debut+startTimeUnix)) & (df['start_timestamp'] < (debut+startTimeUnix+duration))].index.tolist()
   #Calcule de la fréquence
   fréquence = len(index)/duration
   fréquence = np.around(fréquence, decimals=1)
-  print('Il a eu ' , len(index) , ' clignement(s) depuis la seconde ' , debut , ' pendant ' , duration , ' seconde(s)\nPour une fréquence de : ' , fréquence , ' Hz' )
+  #print('Il a eu ' , len(index) , ' clignement(s) depuis la seconde ' , debut , ' pendant ' , duration , ' seconde(s)\nPour une fréquence de : ' , fréquence , ' Hz' )
   return(fréquence)
 
 #fonction permettant de calculer le pourcentage de temps passé à regarder les surfaces enregistrées
@@ -133,27 +137,27 @@ def pourcentageSurface():
   nombreRegard = np.around(nombreRegard, decimals=1)
   #Affichage
   while i < len(nomSurface) :
-    print('La surface '+nomSurface[i]+' a été regardé pendant ', nombreRegard[i],'pourcents du temps')
+    #print('La surface '+nomSurface[i]+' a été regardé pendant ', nombreRegard[i],'pourcents du temps')
     i += 1
 
-def dispersion(debut, duration):
+def dispersion(ID,debut, duration):
   #lecture du csv
   df = pd.read_csv('../SortiePython/fixations_filtred_t_c.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['start_timestamp']>=(debut+startTimeUnix)) & (df['start_timestamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
   moyenneDispersion = df['dispersion'].mean()
   #on arrondie les valeurs précédentes
   moyenneDispersion = np.around(moyenneDispersion, decimals=1)
-  print('La moyenne de la dispersion du regard est de' , moyenneDispersion, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
+  #print('La moyenne de la dispersion du regard est de' , moyenneDispersion, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
   return(moyenneDispersion)
 
-def mouvementFixation(debut, duration):
+def mouvementFixation(ID,debut, duration):
   df = pd.read_csv('../SortiePython/fixations_filtred_t_c.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   df = df[(df['start_timestamp']>=(debut+startTimeUnix)) & (df['start_timestamp']<=(debut+duration+startTimeUnix))]
   listeNorme = []
   i = 0
@@ -175,11 +179,11 @@ def mouvementFixation(debut, duration):
   return(iq_range)
 
 
-def RythmeCardiaque(debut, duration):
+def RythmeCardiaque(ID,debut, duration):
   #lecture csv
   df = pd.read_csv('../Data_E4/CSV_standard/HR_standard.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   #On ne prend que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
@@ -194,39 +198,38 @@ def RythmeCardiaque(debut, duration):
   rythmeCardiaque = [moyenneRythmeCardiaque, maxRythmeCardiaque, minRythmeCardiaque]
   return(rythmeCardiaque)
 
-def VariationRythmeCardiaque(debut, duration):
+def VariationRythmeCardiaque(ID,debut, duration):
   #lecture csv
   df = pd.read_csv('../Data_E4/CSV_standard/IBI_standard.csv')
   #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
+  startTimeUnix = getTime.get_start_time_simulateur_s(ID)
   #On ne prends que les valeurs situées dans l'intervalle
   df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
   #calcul des valeurs intéressantes
   moyenneVariationRythmeCardiaque = df['IBI'].mean()
   #On arrondis les valeurs pour rendre ça plus beau
   moyenneVariationRythmeCardiaque = np.around(moyenneVariationRythmeCardiaque, decimals= 3)
-  print('La moyenne de durée entre les battements de coeur est de' , moyenneVariationRythmeCardiaque, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
+  #print('La moyenne de durée entre les battements de coeur est de' , moyenneVariationRythmeCardiaque, 'depuis la seconde ' , debut , ' pendant ' , duration , 'seconde(s)' )
   return(moyenneVariationRythmeCardiaque)
 
 def ConductivitePeau(debut, duration):
   #lecture csv
   df= pd.read_csv('../SortiePython/EDA_a.csv')
-  #on récupère la valeur en seconde de quand à commencer l'enregistrement des données sur le simulateur
-  startTimeUnix = getTime.get_start_time_simulateur_s()
-  #On ne prends que les valeurs situées dans l'intervalle
-  df = df[(df['Time_stamp']>=(debut+startTimeUnix)) & (df['Time_stamp']<=(debut+duration+startTimeUnix))]
   #Bibliothèque neurokit2
   eda_signal=df['Electrodermal_activity']
-  # Process the raw EDA signal
+  # Process du signal EDA brut
   signals, info = nk.eda_process(eda_signal, sampling_rate=8)
   # Filter phasic and tonic components
   data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
-
-  moyenneRaw=signals['EDA_Raw'].mean()
-  maxRaw=signals['EDA_Raw'].max()
-  totalPeaks=len(info['SCR_Peaks'])
-  totalTime=len(signals['EDA_Raw'])/4
-  freqPeak=totalPeaks/totalTime
-  print("Entre ", debut ," et ", duration ,"secondes, il y a eu ",totalPeaks," Pics en pour ",totalTime,"sec et donc une fréquence de ",freqPeak," Hz")
-  conductivitePeau = [moyenneRaw,maxRaw,moyenneRaw]
+  #Index de début d'intervalle
+  dataDebut=debut*4
+  #Index de fin d'intervalle
+  dataFin=(debut+duration)*4
+  moyenneRaw=signals['EDA_Raw'][dataDebut:dataFin].mean()
+  maxRaw=signals['EDA_Raw'][dataDebut:dataFin].max()
+  totalPeaks=signals['SCR_Peaks'][dataDebut:dataFin].sum()
+  nbData=len(signals['EDA_Raw'][dataDebut:dataFin])/4
+  freqPeak=totalPeaks/nbData
+  #print("Entre ", debut ," et ", duration+debut ,"secondes, il y a eu ",totalPeaks," Pics en pour ",duration,"sec et donc une fréquence de ",freqPeak," Hz")
+  conductivitePeau = [moyenneRaw,maxRaw,freqPeak]
   return conductivitePeau

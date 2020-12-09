@@ -1,25 +1,22 @@
-'''
-Un problème dans l'utilisation du matériel tel que l'EyeTracker est que le temps est relative au système, elle n'a donc aucun sens si nous la prenons tel quel. 
-Il est donc nécessaire de la réajuster à l'aide d'un autre module, 'getTime' (que l'on expliquera plus tard). Pour cela il faut prendre la valeur du csv et lui faire subi des opérations pour arriver au temps UNIX. 
-Ce qui est beaucoup plus simple pour travailler avec plusieurs appareil/système en simultané dans un programme.
-'''
-
 import csv
 #importation du module pour savoir quand l'enregistrement a commencé (UNIX)
 import getTime
 import pandas as pd
 import os
+import sys
+
+csv.field_size_limit(1000000000)
 
 #fonction permettant de changer le temps de chaque csv en seconde UNIX
-def arrangeTime(chemin,nomExport):
+def arrangeTime(ID,chemin,nomExport):
   if 'gaze_positions_on_surface_' in chemin:
-    route = '../EyeTracker/exports/'+nomExport+'/surfaces/'+chemin+'.csv'
+    route = '../EyeTracker/cache_ID'+ID+'/exports/'+nomExport+'/surfaces/'+chemin+'.csv'
     colonne = 2
   elif ((chemin == 'gaze_positions') | (chemin == 'pupil_positions')) :
-    route = '../EyeTracker/exports/'+nomExport+'/'+chemin+'.csv'
+    route = '../EyeTracker/cache_ID'+ID+'/exports/'+nomExport+'/'+chemin+'.csv'
     colonne = 0
   elif ((chemin == 'fixations') | (chemin == 'blinks')):
-    route = '../EyeTracker/exports/'+nomExport+'/'+chemin+'.csv'
+    route = '../EyeTracker/cache_ID'+ID+'/exports/'+nomExport+'/'+chemin+'.csv'
     colonne = 1
   else :
     print('CSV non reconnu')
@@ -39,7 +36,7 @@ def arrangeTime(chemin,nomExport):
         #on modifie toutes les lignes sauf la première
         if lignecount != 0 :
           #on ajoute/soustraie avec les valeurs prises dans le json
-          ligne[colonne] = float(ligne[colonne]) - getTime.get_start_time_synced_s() + getTime.get_start_time_system_s()
+          ligne[colonne] = float(ligne[colonne]) - getTime.get_start_time_synced_s(ID) + getTime.get_start_time_system_s(ID)
           liste.append(ligne)
         #on copie juste la première ligne
         else :
@@ -50,7 +47,6 @@ def arrangeTime(chemin,nomExport):
       writer.writerows(liste)
   #supprime le dernier csv
   #os.remove(route)
-
 
 
 '''

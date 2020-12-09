@@ -4,7 +4,7 @@ import getTime
 
 
 #Fonction de création de csv standardisé en temps Unix
-def arrangeTime(name):
+def arrangeTime(ID,name):
   #On crée le csv voulu
   with open('../Data_E4/CSV_standard/'+name+'_standard.csv', 'w', newline='') as output:
     writer = csv.writer(output, delimiter=',')
@@ -31,7 +31,7 @@ def arrangeTime(name):
       print('csv non reconnu')
       legend.append('Value')
     #On ouvre le csv à lire
-    with open('../Data_E4/CSV_ori/'+name+'.csv') as csvfile:
+    with open('../Data_E4/CSV_ori/cache_ID'+ID+'/'+name+'.csv') as csvfile:
       reader = csv.reader(csvfile, delimiter=',')
       for line in reader:
         #Paramétrage de la 1ere ligne (légendes)
@@ -64,14 +64,14 @@ def arrangeTime(name):
       writer.writerows(output_list)
 
 #Fonction de création de csv standardisé en temps depuis le début de la simulation
-def arrangeTime_t0(name):
+def arrangeTime_t0(ID,name):
   #On créer le csv voulu
   with open('../Data_E4/CSV_standard/'+name+'_standard_t0.csv','w',newline='') as output:
     writer =csv.writer(output,delimiter=',')
     output_list=[]
     countLine=0
     #On prend le temps de début de la simulation
-    timeStart=getTime.get_start_time_simulateur_s()
+    timeStart=getTime.get_start_time_simulateur_s(ID)
 
     if name!='IBI':
       #On ouvre le csv à lire
@@ -91,7 +91,7 @@ def arrangeTime_t0(name):
 
     else:
       #On ouvre le csv à lire
-      with open('../Data_E4/CSV_ori/'+name+'.csv') as csvfile:
+      with open('../Data_E4/CSV_ori/cache_ID'+ID+'/'+name+'.csv') as csvfile:
         reader=csv.reader(csvfile,delimiter=',')
         for line in reader:
           #On écrit la légende et on récupère le temps du début de l'enregistrement de l'E4

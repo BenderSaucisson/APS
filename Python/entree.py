@@ -1,11 +1,6 @@
-'''
-Ce module gère tout ce que l'utilisateur devra rentrer dans la console comme (dans l'ordre :) la localisation du fichier d'exportation des données, 
-le nombre de surface enregistrées dans pupil player, leurs noms, le nombre d'intervalle à examiner, leurs débuts et commencements, ainsi que le nombre et contenu de graph à afficher. 
-Il va aussi gérer si l'utilisateur écris des valeurs qui n'ont aucun sens comme un entier au lieu d'un texte, en renvoyant une erreur précisant pourquoi il n'a pas le droit de faire ça.
-'''
-
 import graph
 from pathlib import Path
+import pandas as pd
 import os
 
 
@@ -48,7 +43,7 @@ def variableFichierExport():
   print("Votre nom de fichier d'export :")
   #on attend que l'utilisateur rentre la donnée du nom de dossier de l'export
   nomExport = input()
-  checkFileExistance(nomExport)
+  #######checkFileExistance(nomExport)
   return (nomExport)
 
 def variableNombreSurface():
@@ -81,14 +76,20 @@ def variableCmd() :
     surfaces.append(entree)
     print(surfaces)
     i = i+1
+  #Création d'une liste avec le nom des ID des différentes données
+  listeID= ['3','5','6','13','17','19']
+  #listeID=['5','6','13','17']
   #création d'une liste avec les noms des différents csv à utiliser, les csv sont présent dans le dossier 'exports'
-  sortie_e_t = ['gaze_positions','blinks','pupil_positions','fixations']
-  sortie_e4 = ['ACC','BVP','EDA','HR','IBI','TEMP']
+  sortie_e_t = ['blinks','pupil_positions']
+  #création d'une liste avec les noms des différents csv de l'empatica 4 à utiliser 
+  sortie_e4 = ['ACC','BVP','EDA','HR','TEMP']
+  #création de la ligne des noms de colonnes
+  stat = pd.DataFrame(columns=['ID','Debut/Fin','FrequenceClignement','MoyenneDispersion','MoyenneDiametrePupille','MaxDiametrePupille','MinDiametrePupille','InterQuantileMouvementFixation','FrequenceConductivitePeau','MaxConductivitePeau','MoyenneConductivitePeau','MaxRythmeCardiaque','MinRythmeCardiaque','MoyenneRythmeCardiaque'])
   i = 0
   while i < nombreSurfaces :
     sortie_e_t.append('gaze_positions_on_surface_'+ surfaces[i])
     i += 1
-  return(nomExport, sortie_e_t,sortie_e4)
+  return(listeID,nomExport, sortie_e_t,sortie_e4,stat)
 
 def variableNombreIntervales():
   print("Combien d'intervalles voulez vous examiner : ")
@@ -102,14 +103,31 @@ def variableNombreIntervales():
     print("Fin de l'intervalle n°", i+1," en seconde :")
     listeFin.append(int(input()))
     i += 1
+  listeDebut,listeFin=elargisementIntervalles(listeDebut,listeFin)
+  nombreIntervalle=nombreIntervalle*3
+  listeDebut.sort()
+  listeFin.sort()
   return(nombreIntervalle, listeDebut, listeFin)
 
+def elargisementIntervalles(listeDebut,listeFin):
+  print("Ajout des intervalles avant/après")
+  tempDebut=[]
+  tempFin=[]
+  for i in listeDebut:
+    tempDebut.append(i)
+    tempDebut.append(i-7)
+    tempFin.append(i)
+  for i in listeFin:
+    tempFin.append(i)
+    tempDebut.append(i)
+    tempFin.append(i+7)
+  return (tempDebut,tempFin)
 
 
 #fonction récupérant l'information de ce que veux grapher l'utilisateur
-def plotCmd():
+def plotCmd(ID):
   #gros pavé explicatif
-  print("Information Graphique Possible :\n[g] : Gaze_position : position du regard\n[p] : Pupil_position : diametre de la pupille\n[b] : Blinks : Clignement des yeux\n[f] : Fixations : Fixation du regard\n[Nom_Surface] : Surface : Position du regard par rapport au référentiel de la surface\n[A] : Accelèrometre\n[B] : Pression arterielle\n[E] : Conductance de la peau (sueur)\n[H] : Rythme cardiaque\n[I] : Intervalle entre les battements de coeur\n[T] : Capteur de température")
+  print("Information Graphique Possible pour l'ID "+ID+" :\n[g] : Gaze_position : position du regard\n[p] : Pupil_position : diametre de la pupille\n[b] : Blinks : Clignement des yeux\n[f] : Fixations : Fixation du regard\n[Nom_Surface] : Surface : Position du regard par rapport au référentiel de la surface\n[A] : Accelèrometre\n[B] : Pression arterielle\n[E] : Conductance de la peau (sueur)\n[H] : Rythme cardiaque\n[I] : Intervalle entre les battements de coeur\n[T] : Capteur de température")
   print("Combien de graphique voulez vous afficher :")
   #combien de graphe l'utilisateur veut visualiser
   i = int(input())

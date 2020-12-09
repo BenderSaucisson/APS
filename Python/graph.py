@@ -50,9 +50,11 @@ def graphe(chemin):
 def grapheMultiple(i , liste):
   #variable compteur
   count = 0
+  ax0=plt.subplot(i, 1, count+1)
   while count < i :
     #on crée un nombre de subplot logique pour que ce soit le plus lisible possible
-    plt.subplot(i, 1, count+1)
+    if count != 0 :
+      plt.subplot(i, 1, count+1, sharex=ax0)
     #plus qu'à plot ce qu'on veut
     graphe(liste[count])
     count += 1
@@ -94,38 +96,25 @@ def graphePupilPosition():
 
 #fonction permettant de grapher un graph booléen de si oui ou non l'oeil est fermé
 def grapheBlink():
-  #on ouvre le csv fixations
-  with open('../SortiePython/blinks_filtred_t_a.csv') as c:
-    #on le met en lecture
-    reader = csv.reader(c, delimiter=',')
-    #création de la liste de variable d'état
-    f = []
-    #création de la liste associé à f pour le temps
-    tempsf =[]
-    #très petite valeur
-    eps = 0.0000001
-    #compteur
-    count = 0
-    for ligne in reader :
-      if count != 0 :
-        #on change de type, de str à float (c'est le temps du début de la fixations)
-        ligne0 = float(ligne[0])
-        #on divise par 1000 pour convertir les millisecondes en secondes (c'est le temps de la durée de la fixation)
-        ligne1 = float(ligne[1])
-        #un peu compliqué à expliquer mais facile à comprendre si l'on fait un dessin de ce qui se passe petit à petit
-        #à chaque instant ou il y aura un front (montant ou descendant) on choppe la valeur des temps juste avant/après cet instant
-        #à cette valeur de temps on lui associe un état. Ce qui premettra un bon tracé
-        f.append(0)
-        tempsf.append(ligne0-eps)
-        f.append(1)
-        tempsf.append(ligne0)
-        f.append(1)
-        tempsf.append(ligne0+ligne1)
-        f.append(0)
-        tempsf.append(ligne0+ligne1+eps)
-      #incrémentation
-      count += 1
-    plt.plot(tempsf, f)
+  #lecture du csv
+  df = pd.read_csv('../SortiePython/blinks_filtred_t_a.csv')
+  f=[]
+  tempsf=[]
+  eps=0.000000001
+  count=0
+  for time in df['start_timestamp']:
+    f.append(0)
+    tempsf.append(time-eps)
+    f.append(1)
+    tempsf.append(time)
+    f.append(1)
+    tempsf.append(time+df['duration'][count])
+    f.append(0)
+    tempsf.append(time+df['duration'][count]+eps)
+    count+=1
+  plt.plot(tempsf,f)
+    
+
 
 #fonctions permettant de grapher un graph booléen de si oui ou non l'oeil fixe quelque chose
 def grapheFixations():
@@ -193,46 +182,73 @@ def grapheBVP():
   plt.ylabel('Value')
 
 def grapheEDA():
-<<<<<<< HEAD
-  df= pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
+  df= pd.read_csv('../SortiePython/EDA_a.csv')
   eda_signal=df['Electrodermal_activity']
   # Process the raw EDA signal
-  signals, info = nk.eda_process(eda_signal, sampling_rate=8)
-  # Filter phasic and tonic components
-  data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
+  eda_signals, info = nk.eda_process(eda_signal, sampling_rate=8)
   #print(signals)  #'EDA_Raw'/'EDA_Clean'/'EDA_Tonic'/'EDA_Phasic'/'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
   #print(info)     #'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
-  #print(data)     #'EDA_Tonic'/'EDA_Phasic'
-  '''# Extract clean EDA and SCR features
-        cleaned = signals["EDA_Clean"]
-        features = [info["SCR_Onsets"], info["SCR_Peaks"], info["SCR_Recovery"]]
-        # Visualize SCR features in cleaned EDA signal
-        plot = nk.events_plot(features, cleaned, color=['red', 'blue', 'orange'])
-        # Filter phasic and tonic components
-        data = nk.eda_phasic(nk.standardize(eda_signal), sampling_rate=8)
-        #data["EDA_Raw"] = eda_signal  # Add raw signal
-        data.plot()'''
-=======
-  df = pd.read_csv('../SortiePython/EDA_intervalle_filtred_t.csv')
-  #df = pd.read_csv('../Data_E4/CSV_standard/EDA_standard.csv')
-
-  eda_signal=df['Electrodermal_activity']
-  # Process the raw EDA signal
-  signals, info = nk.eda_process(eda_signal, sampling_rate=8)
-  #print(signals)  #'EDA_Raw'/'EDA_Clean'/'EDA_Tonic'/'EDA_Phasic'/'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
-  #print(info)     #'SCR_Onsets'/'SCR_Peaks'/'SCR_Height'/'SCR_Amplitude'/'SCR_RiseTime'/'SCR_Recovery'/'SCR_RecoveryTime'
-  totalPeaks=len(info['SCR_Peaks'])
-  totalTime=len(signals['EDA_Raw'])/4
-
-  print("Il y a eu ",totalPeaks," Pics en ",totalTime," pour une fréquence de ",totalPeaks/totalTime," Hz")
-
->>>>>>> 6c432eaf13b3cafccaa9917cf4871e0cb378f3b1
+  #plot=plt.plot(df["Time_stamp"],signals["EDA_Raw"])
   # Plot EDA signal
-  plot = nk.eda_plot(signals)
+  #plot = nk.eda_plot(signals)
+  sampling_rate=8
+  peaks = np.where(eda_signals["SCR_Peaks"] == 1)[0]
+  onsets = np.where(eda_signals["SCR_Onsets"] == 1)[0]
+  half_recovery = np.where(eda_signals["SCR_Recovery"] == 1)[0]
+
+  fig, (ax0, ax1, ax2) = plt.subplots(nrows=3, ncols=1, sharex=True)
+
+  # Determine unit of x-axis.
+  last_ax = fig.get_axes()[-1]
+  if sampling_rate is not None:
+    last_ax.set_xlabel("Seconds")
+    x_axis = np.linspace(0, len(eda_signals) / sampling_rate, len(eda_signals))
+  else:
+    last_ax.set_xlabel("Samples")
+    x_axis = np.arange(0, len(eda_signals))
+
+  plt.subplots_adjust(hspace=0.2)
+
+  # Plot cleaned and raw respiration as well as peaks and troughs.
+  ax0.set_title("Raw and Cleaned Signal")
+  fig.suptitle("Electrodermal Activity (EDA)", fontweight="bold")
+  ax0.plot(x_axis, eda_signals["EDA_Raw"], color="#B0BEC5", label="Raw", zorder=1)
+  ax0.plot(x_axis, eda_signals["EDA_Clean"], color="#9C27B0", label="Cleaned", linewidth=1.5, zorder=1)
+  ax0.legend(loc="upper right")
+
+  # Plot skin cnoductance response.
+  ax1.set_title("Skin Conductance Response (SCR)")
+
+  # Plot Phasic.
+  ax1.plot(x_axis, eda_signals["EDA_Phasic"], color="#E91E63", label="Phasic Component", linewidth=1.5, zorder=1)
+
+  '''# Mark segments.
+        risetime_coord, amplitude_coord, halfr_coord = _eda_plot_dashedsegments(
+          eda_signals, ax1, x_axis, onsets, peaks, half_recovery
+        )
+      
+        risetime = matplotlib.collections.LineCollection(risetime_coord, colors="#FFA726", linewidths=1, linestyle="dashed")
+        ax1.add_collection(risetime)
+      
+        amplitude = matplotlib.collections.LineCollection(
+          amplitude_coord, colors="#1976D2", linewidths=1, linestyle="solid"
+        )
+        ax1.add_collection(amplitude)
+      
+        halfr = matplotlib.collections.LineCollection(halfr_coord, colors="#FDD835", linewidths=1, linestyle="dashed")
+        ax1.add_collection(halfr)'''
+  ax1.legend(loc="upper right")
+
+  # Plot Tonic.
+  ax2.set_title("Skin Conductance Level (SCL)")
+  ax2.plot(x_axis, eda_signals["EDA_Tonic"], color="#673AB7", label="Tonic Component", linewidth=1.5)
+  ax2.legend(loc="upper right")
+  plt.show()
 
 
 def grapheHR():
-  df = pd.read_csv('../SortiePython/HR_intervalle_filtred_t.csv')
+  df = pd.read_csv('../Data_E4/CSV_standard/HR_standard_t0.csv')
+  df=df[df["Time_stamp"]>=0] 
   plt.plot(df['Time_stamp'],df['Av_heart_rate'],'.')
   plt.xlabel('Time (s)')
   plt.ylabel('Heart_rate (bpm)')
@@ -264,6 +280,7 @@ def grapheIBI():
   
 def grapheTEMP():
   df = pd.read_csv('../Data_E4/CSV_standard/TEMP_standard_t0.csv')
+  df=df[df["Time_stamp"]>=0]  
   plt.plot(df['Time_stamp'],df['temperature'],'.')
   plt.xlabel('Time (s)')
   plt.ylabel('Temp (C)')
